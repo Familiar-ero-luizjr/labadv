@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Advogado Já · Laboratório Funcional</title>
+<style>
+:root{--navy:#10233f;--blue:#2563eb;--bg:#f4f7fb;--card:#fff;--ink:#18253b;--muted:#64748b;--line:#dbe2ea;--green:#087f5b;--violet:#6d28d9;--orange:#9a3412;--gold:#946200}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.55 Inter,system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:1180px;margin:auto;padding:34px 18px 60px}
+.hero{padding:28px;border-radius:20px;background:linear-gradient(120deg,#10233f,#184777 75%,#235bd4);color:#fff}
+.eyebrow{font-size:10px;font-weight:900;letter-spacing:.16em;text-transform:uppercase;color:#eed29a}
+h1{margin:6px 0 10px;font-size:34px;line-height:1.1} .hero p{max-width:800px;margin:0;color:#d5e2f4}
+.workflow{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:18px}.step{padding:13px;border:1px solid #ffffff2e;border-radius:12px;background:#ffffff10}.step b{display:block;margin-bottom:4px}.step span{font-size:11px;color:#d5e2f4}
+.section{margin-top:28px}.section-head{display:flex;justify-content:space-between;align-items:end;gap:12px;margin-bottom:11px}.section h2{margin:0;color:var(--navy);font-size:19px}.section-head p{margin:0;color:var(--muted);font-size:11px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.card{display:block;text-decoration:none;color:inherit;padding:17px;border:1px solid var(--line);border-radius:15px;background:var(--card);box-shadow:0 7px 24px #10233f0b;transition:.15s}.card:hover{transform:translateY(-2px);border-color:#b8c9dd}
+.card .tag{display:inline-block;padding:4px 8px;border-radius:99px;font-size:9px;font-weight:900;text-transform:uppercase;letter-spacing:.05em;background:#eef4ff;color:var(--blue)}.card h3{margin:9px 0 5px;color:var(--navy);font-size:16px}.card p{margin:0;color:var(--muted);font-size:11px}.client .tag{background:#e9fbf5;color:var(--green)}.lawyer .tag{background:#eef5ff;color:#173c6b}.student .tag{background:#f5f3ff;color:var(--violet)}.admin .tag{background:#fff7ed;color:var(--orange)}.questions .tag{background:#fffbeb;color:var(--gold)}.data .tag{background:#edfdf5;color:#067647}
+.rules{display:grid;grid-template-columns:1fr 1fr;gap:12px}.rule{padding:15px;border:1px solid var(--line);border-radius:14px;background:#fff}.rule b{display:block;color:var(--navy);margin-bottom:5px}.rule span{font-size:11px;color:var(--muted)}
+.docs{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}.docs a{color:#fff;border:1px solid #ffffff42;padding:7px 10px;border-radius:8px;text-decoration:none;font-size:10px;font-weight:800}
+footer{margin-top:28px;padding-top:16px;border-top:1px solid var(--line);color:#8792a2;font-size:10px}
+@media(max-width:760px){.grid,.rules,.workflow{grid-template-columns:1fr}h1{font-size:27px}.hero{padding:22px}}
+</style>
+</head>
+<body>
+<main>
+  <header class="hero">
+    <div class="eyebrow">Advogado Já V2 · GitHub Pages</div>
+    <h1>Laboratório Funcional</h1>
+    <p>Ambiente para fechar a aplicação antes da construção final das telas. As jornadas mostram o comportamento, a entrevista fecha decisões e o modelo de banco valida a persistência necessária.</p>
+    <div class="workflow">
+      <div class="step"><b>1 · Ver a jornada</b><span>Identificar tela, ação, estado ou ponto que ainda não está correto.</span></div>
+      <div class="step"><b>2 · Fechar a decisão</b><span>Responder ou criar a pergunta funcional correspondente, sem inventar regra.</span></div>
+      <div class="step"><b>3 · Validar os dados</b><span>Revisar banco e os demais fluxos afetados pela decisão.</span></div>
+    </div>
+    <div class="docs"><a href="README.md">README</a><a href="AGENTS.md">AGENTS.md</a></div>
+  </header>
+
+  <section class="section">
+    <div class="section-head"><div><h2>Quatro jornadas</h2><p>Fluxos individuais usados para fechar as telas da aplicação.</p></div></div>
+    <div class="grid">
+      <a class="card client" href="jornadas/cliente_maria.html"><span class="tag">Cliente</span><h3>Maria · Jornada Cliente</h3><p>Cadastro, onboarding, Home, busca, solicitações, contato, encerramento, avaliação e conta.</p></a>
+      <a class="card lawyer" href="jornadas/advogado_joao.html"><span class="tag">Advogado</span><h3>João · Jornada Advogado</h3><p>Onboarding profissional, Home única, OAB por capabilities, solicitações, operação, escritório e assinatura.</p></a>
+      <a class="card student" href="jornadas/estudante_ana.html"><span class="tag">Estudante de Direito</span><h3>Ana · Jornada Estudante</h3><p>Dados acadêmicos opcionais, Home, catálogo, cursos, assinatura, entitlements e DMembers.</p></a>
+      <a class="card admin" href="jornadas/administrador.html"><span class="tag">Administrador</span><h3>Jornada Administrador</h3><p>Papel interno, Dashboard, perfis, OAB, denúncias, assinaturas, logs e governança pendente.</p></a>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><div><h2>Ferramentas de definição</h2><p>Onde as lacunas das jornadas são transformadas em decisões e dados.</p></div></div>
+    <div class="grid">
+      <a class="card questions" href="definicao/entrevista_funcional_4_jornadas.html"><span class="tag">Decisões</span><h3>Entrevista funcional</h3><p>Quatro jornadas completas. Respostas editáveis, desmarcáveis, salvas no navegador e exportáveis em JSON.</p></a>
+      <a class="card data" href="modelos/modelagem_banco_todas_telas.html"><span class="tag">Dados</span><h3>Modelo de banco</h3><p>Entidades, relacionamentos, telas → tabelas e SQL proposto para sustentar o comportamento definido.</p></a>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><div><h2>Regras do laboratório</h2><p>Proteções contra decisões implícitas e deriva de escopo.</p></div></div>
+    <div class="rules">
+      <div class="rule"><b>Não inventar</b><span>Se a regra não estiver fechada, ela vira pendência/pergunta. HTML existente não é automaticamente canônico.</span></div>
+      <div class="rule"><b>Rastrear impacto</b><span>Decisão funcional pode exigir revisão da jornada, do banco e de outras personas. Nada deve mudar isoladamente.</span></div>
+      <div class="rule"><b>Tela ≠ ação ≠ estado ≠ componente</b><span>Essa distinção deve ser preservada antes de acrescentar qualquer tela nova.</span></div>
+      <div class="rule"><b>Fechar antes de construir</b><span>O objetivo desta fase é saber exatamente quais telas e regras precisam existir antes da implementação final.</span></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><div><h2>Referência auxiliar</h2><p>Visão consolidada; útil para orientação, mas não substitui os fluxos individuais.</p></div></div>
+    <div class="grid">
+      <a class="card" href="referencias/mapa_aplicacao_todas_jornadas.html"><span class="tag">Referência</span><h3>Mapa integrado das jornadas</h3><p>Visão geral da aplicação e das conexões entre os quatro perfis.</p></a>
+    </div>
+  </section>
+
+  <footer>Pacote estático pronto para publicação no GitHub Pages. Não publicar secrets, credenciais ou dados pessoais reais.</footer>
+</main>
+</body>
+</html>
