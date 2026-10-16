@@ -3,74 +3,75 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Laboratório funcional do Advogado Já: inventário, quatro jornadas, entrevista e banco em abas.">
 <title>Advogado Já · Laboratório Funcional</title>
 <style>
-:root{--navy:#10233f;--blue:#2563eb;--bg:#f4f7fb;--card:#fff;--ink:#18253b;--muted:#64748b;--line:#dbe2ea;--green:#087f5b;--violet:#6d28d9;--orange:#9a3412;--gold:#946200}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.55 Inter,system-ui,-apple-system,"Segoe UI",sans-serif}
-main{max-width:1180px;margin:auto;padding:34px 18px 60px}
-.hero{padding:28px;border-radius:20px;background:linear-gradient(120deg,#10233f,#184777 75%,#235bd4);color:#fff}
-.eyebrow{font-size:10px;font-weight:900;letter-spacing:.16em;text-transform:uppercase;color:#eed29a}
-h1{margin:6px 0 10px;font-size:34px;line-height:1.1} .hero p{max-width:800px;margin:0;color:#d5e2f4}
-.workflow{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:18px}.step{padding:13px;border:1px solid #ffffff2e;border-radius:12px;background:#ffffff10}.step b{display:block;margin-bottom:4px}.step span{font-size:11px;color:#d5e2f4}
-.section{margin-top:28px}.section-head{display:flex;justify-content:space-between;align-items:end;gap:12px;margin-bottom:11px}.section h2{margin:0;color:var(--navy);font-size:19px}.section-head p{margin:0;color:var(--muted);font-size:11px}
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.card{display:block;text-decoration:none;color:inherit;padding:17px;border:1px solid var(--line);border-radius:15px;background:var(--card);box-shadow:0 7px 24px #10233f0b;transition:.15s}.card:hover{transform:translateY(-2px);border-color:#b8c9dd}
-.card .tag{display:inline-block;padding:4px 8px;border-radius:99px;font-size:9px;font-weight:900;text-transform:uppercase;letter-spacing:.05em;background:#eef4ff;color:var(--blue)}.card h3{margin:9px 0 5px;color:var(--navy);font-size:16px}.card p{margin:0;color:var(--muted);font-size:11px}.client .tag{background:#e9fbf5;color:var(--green)}.lawyer .tag{background:#eef5ff;color:#173c6b}.student .tag{background:#f5f3ff;color:var(--violet)}.admin .tag{background:#fff7ed;color:var(--orange)}.questions .tag{background:#fffbeb;color:var(--gold)}.data .tag{background:#edfdf5;color:#067647}
-.rules{display:grid;grid-template-columns:1fr 1fr;gap:12px}.rule{padding:15px;border:1px solid var(--line);border-radius:14px;background:#fff}.rule b{display:block;color:var(--navy);margin-bottom:5px}.rule span{font-size:11px;color:var(--muted)}
-.docs{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}.docs a{color:#fff;border:1px solid #ffffff42;padding:7px 10px;border-radius:8px;text-decoration:none;font-size:10px;font-weight:800}
-footer{margin-top:28px;padding-top:16px;border-top:1px solid var(--line);color:#8792a2;font-size:10px}
-@media(max-width:760px){.grid,.rules,.workflow{grid-template-columns:1fr}h1{font-size:27px}.hero{padding:22px}}
+:root{--navy:#10233f;--blue:#2563eb;--bg:#eef2f7;--surface:#fff;--ink:#18253b;--muted:#64748b;--line:#d8e0ea}
+*{box-sizing:border-box}html,body{height:100%}body{margin:0;background:var(--bg);color:var(--ink);font:13px/1.4 Inter,system-ui,-apple-system,"Segoe UI",sans-serif;overflow:hidden}
+.shell{height:100vh;display:grid;grid-template-rows:auto auto 1fr}
+.topbar{display:flex;align-items:center;gap:14px;padding:10px 14px;background:var(--navy);color:#fff;border-bottom:1px solid #ffffff20}
+.brand{min-width:0}.brand strong{display:block;font-size:13px;letter-spacing:.06em}.brand span{display:block;font-size:9px;color:#bcd0e8}
+.spacer{flex:1}.doclink{color:#e8f1ff;text-decoration:none;border:1px solid #ffffff35;border-radius:7px;padding:6px 9px;font-size:10px;font-weight:800}.doclink:hover{background:#ffffff12}
+.tabs{display:flex;align-items:stretch;gap:3px;padding:7px 8px;background:#fff;border-bottom:1px solid var(--line);overflow-x:auto;scrollbar-width:thin}
+.tab{flex:0 0 auto;border:1px solid transparent;border-radius:8px;background:transparent;color:#526177;padding:8px 11px;font:800 10px/1.2 inherit;cursor:pointer;white-space:nowrap}.tab:hover{background:#f4f7fb}.tab[aria-selected="true"]{background:#eaf2ff;border-color:#bfd4f7;color:#184f9c}
+.stage{position:relative;min-height:0;background:#fff}.panel{position:absolute;inset:0;display:none}.panel.active{display:block}.panel iframe{width:100%;height:100%;border:0;background:#fff}
+.status{display:none}
+@media(max-width:720px){.topbar{padding:8px 10px}.brand span{display:none}.doclink{padding:5px 7px}.tabs{padding:6px}.tab{padding:8px 9px}}
 </style>
 </head>
 <body>
-<main>
-  <header class="hero">
-    <div class="eyebrow">Advogado Já V2 · GitHub Pages</div>
-    <h1>Laboratório Funcional</h1>
-    <p>Ambiente para fechar a aplicação antes da construção final das telas. As jornadas mostram o comportamento, a entrevista fecha decisões e o modelo de banco valida a persistência necessária.</p>
-    <div class="workflow">
-      <div class="step"><b>1 · Ver a jornada</b><span>Identificar tela, ação, estado ou ponto que ainda não está correto.</span></div>
-      <div class="step"><b>2 · Fechar a decisão</b><span>Responder ou criar a pergunta funcional correspondente, sem inventar regra.</span></div>
-      <div class="step"><b>3 · Validar os dados</b><span>Revisar banco e os demais fluxos afetados pela decisão.</span></div>
-    </div>
-    <div class="docs"><a href="README.md">README</a><a href="AGENTS.md">AGENTS.md</a></div>
-  </header>
+<div class="shell">
+<header class="topbar">
+  <div class="brand"><strong>ADVOGADO JÁ · LAB</strong><span>Fechamento funcional antes da construção das telas</span></div>
+  <div class="spacer"></div>
+  <a class="doclink" href="README.md" target="_blank" rel="noopener">README</a>
+  <a class="doclink" href="AGENTS.md" target="_blank" rel="noopener">AGENTS.md</a>
+</header>
 
-  <section class="section">
-    <div class="section-head"><div><h2>Quatro jornadas</h2><p>Fluxos individuais usados para fechar as telas da aplicação.</p></div></div>
-    <div class="grid">
-      <a class="card client" href="jornadas/cliente_maria.html"><span class="tag">Cliente</span><h3>Maria · Jornada Cliente</h3><p>Cadastro, onboarding, Home, busca, solicitações, contato, encerramento, avaliação e conta.</p></a>
-      <a class="card lawyer" href="jornadas/advogado_joao.html"><span class="tag">Advogado</span><h3>João · Jornada Advogado</h3><p>Onboarding profissional, Home única, OAB por capabilities, solicitações, operação, escritório e assinatura.</p></a>
-      <a class="card student" href="jornadas/estudante_ana.html"><span class="tag">Estudante de Direito</span><h3>Ana · Jornada Estudante</h3><p>Dados acadêmicos opcionais, Home, catálogo, cursos, assinatura, entitlements e DMembers.</p></a>
-      <a class="card admin" href="jornadas/administrador.html"><span class="tag">Administrador</span><h3>Jornada Administrador</h3><p>Papel interno, Dashboard, perfis, OAB, denúncias, assinaturas, logs e governança pendente.</p></a>
-    </div>
-  </section>
+<nav class="tabs" role="tablist" aria-label="Artefatos do laboratório">
+  <button class="tab" role="tab" aria-selected="true" data-tab="inventario">Inventário</button>
+  <button class="tab" role="tab" aria-selected="false" data-tab="cliente">Cliente</button>
+  <button class="tab" role="tab" aria-selected="false" data-tab="advogado">Advogado</button>
+  <button class="tab" role="tab" aria-selected="false" data-tab="estudante">Estudante</button>
+  <button class="tab" role="tab" aria-selected="false" data-tab="admin">Administrador</button>
+  <button class="tab" role="tab" aria-selected="false" data-tab="entrevista">Entrevista</button>
+  <button class="tab" role="tab" aria-selected="false" data-tab="banco">Banco</button>
+  <button class="tab" role="tab" aria-selected="false" data-tab="mapa">Mapa integrado</button>
+</nav>
 
-  <section class="section">
-    <div class="section-head"><div><h2>Ferramentas de definição</h2><p>Onde as lacunas das jornadas são transformadas em decisões e dados.</p></div></div>
-    <div class="grid">
-      <a class="card questions" href="definicao/entrevista_funcional_4_jornadas.html"><span class="tag">Decisões</span><h3>Entrevista funcional</h3><p>Quatro jornadas completas. Respostas editáveis, desmarcáveis, salvas no navegador e exportáveis em JSON.</p></a>
-      <a class="card data" href="modelos/modelagem_banco_todas_telas.html"><span class="tag">Dados</span><h3>Modelo de banco</h3><p>Entidades, relacionamentos, telas → tabelas e SQL proposto para sustentar o comportamento definido.</p></a>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="section-head"><div><h2>Regras do laboratório</h2><p>Proteções contra decisões implícitas e deriva de escopo.</p></div></div>
-    <div class="rules">
-      <div class="rule"><b>Não inventar</b><span>Se a regra não estiver fechada, ela vira pendência/pergunta. HTML existente não é automaticamente canônico.</span></div>
-      <div class="rule"><b>Rastrear impacto</b><span>Decisão funcional pode exigir revisão da jornada, do banco e de outras personas. Nada deve mudar isoladamente.</span></div>
-      <div class="rule"><b>Tela ≠ ação ≠ estado ≠ componente</b><span>Essa distinção deve ser preservada antes de acrescentar qualquer tela nova.</span></div>
-      <div class="rule"><b>Fechar antes de construir</b><span>O objetivo desta fase é saber exatamente quais telas e regras precisam existir antes da implementação final.</span></div>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="section-head"><div><h2>Referência auxiliar</h2><p>Visão consolidada; útil para orientação, mas não substitui os fluxos individuais.</p></div></div>
-    <div class="grid">
-      <a class="card" href="referencias/mapa_aplicacao_todas_jornadas.html"><span class="tag">Referência</span><h3>Mapa integrado das jornadas</h3><p>Visão geral da aplicação e das conexões entre os quatro perfis.</p></a>
-    </div>
-  </section>
-
-  <footer>Pacote estático pronto para publicação no GitHub Pages. Não publicar secrets, credenciais ou dados pessoais reais.</footer>
+<main class="stage">
+  <section class="panel active" data-panel="inventario"><iframe title="Inventário Mestre de Telas" src="inventario.html"></iframe></section>
+  <section class="panel" data-panel="cliente"><iframe title="Jornada Cliente" src="jornadas/cliente_maria.html" loading="lazy"></iframe></section>
+  <section class="panel" data-panel="advogado"><iframe title="Jornada Advogado" src="jornadas/advogado_joao.html" loading="lazy"></iframe></section>
+  <section class="panel" data-panel="estudante"><iframe title="Jornada Estudante de Direito" src="jornadas/estudante_ana.html" loading="lazy"></iframe></section>
+  <section class="panel" data-panel="admin"><iframe title="Jornada Administrador" src="jornadas/administrador.html" loading="lazy"></iframe></section>
+  <section class="panel" data-panel="entrevista"><iframe title="Entrevista funcional" src="definicao/entrevista_funcional_4_jornadas.html" loading="lazy"></iframe></section>
+  <section class="panel" data-panel="banco"><iframe title="Modelo de banco" src="modelos/modelagem_banco_todas_telas.html" loading="lazy"></iframe></section>
+  <section class="panel" data-panel="mapa"><iframe title="Mapa integrado" src="referencias/mapa_aplicacao_todas_jornadas.html" loading="lazy"></iframe></section>
 </main>
+</div>
+<script>
+const tabs=[...document.querySelectorAll(".tab")];
+const panels=[...document.querySelectorAll(".panel")];
+function activate(id,push=true){
+  const tab=tabs.find(t=>t.dataset.tab===id)||tabs[0];
+  const target=tab.dataset.tab;
+  tabs.forEach(t=>t.setAttribute("aria-selected",String(t===tab)));
+  panels.forEach(p=>p.classList.toggle("active",p.dataset.panel===target));
+  if(push) history.replaceState(null,"","#"+target);
+  tab.scrollIntoView({block:"nearest",inline:"nearest"});
+}
+tabs.forEach((t,i)=>{
+  t.addEventListener("click",()=>activate(t.dataset.tab));
+  t.addEventListener("keydown",ev=>{
+    if(ev.key!=="ArrowLeft"&&ev.key!=="ArrowRight")return;
+    ev.preventDefault();
+    const next=(i+(ev.key==="ArrowRight"?1:-1)+tabs.length)%tabs.length;
+    tabs[next].focus(); activate(tabs[next].dataset.tab);
+  });
+});
+activate(location.hash.slice(1)||"inventario",false);
+window.addEventListener("hashchange",()=>activate(location.hash.slice(1)||"inventario",false));
+</script>
 </body>
 </html>
