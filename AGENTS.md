@@ -136,6 +136,82 @@ Regras:
 - não fazer a pergunta desaparecer durante a edição;
 - exportação JSON deve preservar perguntas, alternativas e respostas.
 
+## Método operacional para terminar a definição
+
+O **Inventário Mestre de Telas** é o eixo de trabalho da fase atual.
+
+A entrevista funcional e o modelo de banco **não dirigem isoladamente o produto**. Eles existem para validar e fechar o que as jornadas exigem.
+
+### Ordem de trabalho
+
+1. consolidar o inventário único das quatro jornadas;
+2. fechar primeiro o fluxo comum: cadastro, login, conta, perfis e seletor;
+3. auditar Cliente;
+4. auditar Advogado;
+5. auditar Estudante de Direito;
+6. auditar Administrador;
+7. revisar os impactos cruzados no banco e nas perguntas funcionais;
+8. congelar a especificação funcional antes da construção final das telas.
+
+### Para cada tela do inventário
+
+Responder objetivamente:
+
+1. **Esta tela precisa existir?**
+2. **Quais ações podem acontecer nela?**
+3. **Para onde cada ação leva?**
+4. **Quais dados e estados ela precisa?**
+
+Se alguma dessas respostas não estiver fechada, criar/usar uma pergunta objetiva na entrevista. Não preencher a lacuna por suposição.
+
+### Status do inventário
+
+Usar os seguintes estados:
+
+- **A AUDITAR** — existe na jornada, mas ainda não foi validada;
+- **CONFIRMADA** — a tela realmente deve existir como está conceitualmente;
+- **ALTERAR** — existe, mas precisa mudar;
+- **CRIAR** — tela necessária ainda não consolidada no produto;
+- **EXCLUIR** — item atualmente tratado como tela, mas não deve permanecer;
+- **POSSÍVEL DUPLICATA** — precisa ser comparada com outra tela;
+- **PENDENTE** — depende de decisão funcional ainda não fechada.
+
+Marcar uma tela como CRIAR não autoriza inventar seu conteúdo. Primeiro deve existir uma necessidade funcional rastreável.
+
+### Regra de atualização cruzada
+
+Toda decisão relevante deve disparar esta verificação:
+
+**Jornada → Tela → Pergunta/decisão → Dados/persistência → outras jornadas afetadas**
+
+Se a decisão alterar comportamento, atualizar a jornada.
+Se alterar persistência, estado, histórico ou vínculo entre entidades, revisar o banco.
+Se eliminar uma dúvida, atualizar/consolidar a entrevista.
+Se afetar outro perfil, revisar a jornada correspondente.
+
+### O que significa "terminar"
+
+Não é necessário "responder todas as perguntas" por si só.
+
+A fase termina quando:
+
+- as quatro jornadas podem ser percorridas ponta a ponta;
+- o inventário não possui buracos funcionais críticos;
+- cada ação relevante tem destino conhecido;
+- telas, componentes, ações e estados estão corretamente separados;
+- dados persistentes necessários têm suporte no modelo de banco;
+- guards, capabilities e integrações necessárias estão definidos;
+- perguntas restantes não bloqueiam a construção das telas.
+
+A partir desse ponto, o laboratório deixa de descobrir arquitetura básica e passa a alimentar a construção das telas.
+
+### Navegação do laboratório
+
+O `index.html` é somente o **hub de acesso por abas**. Os HTMLs continuam separados e independentes no repositório.
+
+Não fundir jornadas, entrevista, banco e inventário em um único arquivo de conteúdo apenas para facilitar navegação. A barra de abas deve carregar cada artefato mantendo sua fonte própria.
+
+
 ## GitHub Pages
 
 O laboratório pode ser publicado como site estático.
