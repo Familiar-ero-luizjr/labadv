@@ -2,74 +2,61 @@
 
 ## Escopo
 
-Estas regras valem somente para `aplicacoes/advogadojaplus-v2/`.
+Implementação React/Node do mesmo Advogado Já implementado em Flutter.
 
-Esta é uma implementação real do Advogado Já e deve permanecer funcionalmente equivalente ao Flutter.
+## Entrada autorizada
 
-## Antes de editar
+Implementar somente trechos/lotes ligados a uma jornada e revisão aprovadas, depois da sincronização funcional de telas, dados/modelos e contratos necessários.
 
-Para qualquer lote ou mudança relevante:
+## Processo
 
-1. auditar a estrutura e o comportamento existentes;
-2. identificar arquivos realmente afetados;
-3. verificar componentes e serviços reutilizáveis;
-4. definir plano técnico;
-5. validar o plano contra a jornada/protótipo aprovados;
-6. somente então editar.
+```text
+auditar estado atual
+→ identificar arquivos/componentes reutilizáveis
+→ planejar lote
+→ validar contra jornada vigente
+→ executar
+→ testar/buildar
+→ comparar com Flutter
+→ homologar com Mock Services
+```
+
+Se surgir decisão funcional ausente, bloquear e devolver à jornada. Não decidir dentro do código.
 
 ## Frontend
 
-Manter separação entre:
+Separar telas de negócio, componentes reutilizáveis, formulários, feedback, estados comuns, layout, tema/tokens, providers/contexto e serviços de API.
 
-- telas de negócio;
-- componentes reutilizáveis;
-- formulários;
-- feedback;
-- modais;
-- estados comuns;
-- layout;
-- tema/tokens;
-- contexto/providers;
-- serviços de API.
+Evitar chamadas HTTP em componentes de apresentação quando houver camada de serviço apropriada.
 
-Não colocar chamadas HTTP diretamente em componentes de apresentação quando já existir ou couber uma camada de serviço.
-
-Não duplicar loading, alerta, erro ou empty state em cada tela se a responsabilidade puder ser centralizada.
+Centralizar loading, erro, alerta, empty state, modal e padrões de formulário quando forem transversais.
 
 ## Backend
 
-Manter responsabilidades separadas:
+Preferir responsabilidades claras:
 
 ```text
 route → controller → service → repository → provider/persistência
 ```
 
-- route define entrada HTTP;
-- controller traduz HTTP;
-- service contém regra de negócio;
-- repository define acesso a dados;
-- provider implementa mock/Mongo ou outra infraestrutura autorizada.
+Não pular camadas por conveniência quando isso misturar HTTP, regra de negócio e persistência.
 
-Não pular camadas sem motivo documentado.
+## Contratos
 
-## Regras de produto
+Frontend consome API/contratos, não MongoDB nem detalhes do Mock diretamente.
 
-Não inventar regra para completar endpoint ou tela.
-
-Se a jornada/protótipo não definir o comportamento necessário, interromper a implementação desse ponto e registrar a pendência.
+Providers podem variar entre homologação e produção sem reescrever a UI.
 
 ## Equivalência
 
-Ao finalizar um lote, validar o mesmo comportamento esperado no Flutter.
+Ao concluir o lote, comparar com Flutter em ações, destinos, estados, validações e resultados observáveis.
 
-Diferenças visuais ou técnicas só são aceitáveis quando decorrem do framework e não alteram o produto.
+Diferença técnica do framework é permitida; diferença funcional não.
 
-## Mock e produção
+## Regressão
 
-Não acoplar a UI a MongoDB ou ao Mock Services.
+Mudança em jornada já homologada exige aplicar a revisão e testar os trechos anteriormente concluídos afetados.
 
-O frontend consome contratos/API.
+## Segurança
 
-A API pode selecionar provedores conforme configuração e plano aprovado.
-
-Nunca expor segredo de servidor em variáveis públicas do frontend.
+Segredos de servidor nunca vão para bundle público ou repositório.
