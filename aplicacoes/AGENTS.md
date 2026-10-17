@@ -2,149 +2,77 @@
 
 ## Missão
 
-Esta pasta contém a implementação executável do Advogado Já.
+Implementar o Advogado Já executável sem inventar produto.
 
-Não usar `aplicacoes/` para inventar jornada, tela ou regra de produto. A implementação começa somente depois de definição e protótipo aprovados.
+`advogadojaplus-v2/` e `flutter/` representam a mesma aplicação em tecnologias diferentes. `advogadoja-mock-services/` fornece o ambiente externo simulado para desenvolvimento/homologação.
 
-## Regra de equivalência
+## Implementação vertical por jornada
 
-`advogadojaplus-v2/` e `flutter/` são duas implementações da **mesma aplicação**.
+Não esperar as três jornadas ficarem prontas para começar código.
 
-Não criar divergência funcional entre elas por conveniência técnica.
+Depois que uma jornada estiver funcionalmente fechada e seus artefatos dependentes sincronizados:
 
-Devem permanecer equivalentes em:
+```text
+planejar lote técnico
+→ implementar React/Node
+→ implementar Flutter
+→ adaptar Mock Services
+→ validar equivalência
+→ homologar ponta a ponta
+→ concluir revisão da jornada
+```
 
-- telas aprovadas;
-- ações;
-- destinos;
+Só então a Orquestração segue para a próxima jornada.
+
+## Equivalência
+
+React e Flutter devem ser equivalentes em comportamento observável:
+
+- telas;
+- ações e destinos;
 - estados;
-- regras;
-- validações observáveis;
-- contratos funcionais;
+- regras e guards;
+- validações;
+- contratos;
 - cenários homologados.
 
-A arquitetura interna pode e deve ser idiomática para cada tecnologia.
+Arquitetura interna pode ser idiomática para cada stack.
 
-## Regra máxima de execução
+## Fronteira funcional
 
-Antes de modificar código de aplicação:
+Código não resolve dúvida de produto.
 
-1. **Auditar** o estado atual.
-2. **Planejar** a melhor solução.
-3. **Validar** o plano contra requisitos e arquitetura.
-4. **Executar** somente o que foi planejado.
-5. **Validar** o resultado com build, testes e comportamento.
-
-Não editar primeiro para "arrumar depois".
-
-Não produzir saltos arquiteturais, duplicação de responsabilidades ou arquivos improvisados para concluir mais rápido.
+Se faltar comportamento, campo, estado, regra ou destino, bloquear o ponto e devolver à jornada/definição.
 
 ## Trabalho por lotes
 
-A implementação pode ocorrer em lotes de telas.
+Cada lote deve declarar telas/trechos, jornada/revisão de origem, contratos, dados, estados, navegação, componentes reutilizáveis, impacto no mock, validações e critérios de conclusão.
 
-Antes de iniciar cada lote, registrar no plano:
+## Contratos
 
-- quais telas entram;
-- qual jornada e decisão as autorizam;
-- o que já existe no React;
-- o que já existe no Flutter;
-- componentes reutilizáveis disponíveis;
-- componentes transversais faltantes;
-- contratos/API envolvidos;
-- estados de loading, erro, vazio e sucesso;
-- navegação e destinos;
-- dados lidos e gravados;
-- impacto no mock;
-- testes e critérios de conclusão.
-
-Só depois executar o lote nas duas implementações.
-
-## Fronteira entre definição e implementação
-
-O caminho obrigatório é:
+Preferir:
 
 ```text
-definição funcional
-→ jornada fechada
-→ protótipo de baixa fidelidade
-→ planejamento técnico
-→ aplicações
-→ mock integrado
-→ homologação
-→ produção
+UI → contrato funcional → adapter/provider
+                     ├─ Mock Services
+                     └─ produção
 ```
 
-Se uma decisão funcional ainda estiver aberta, voltar ao laboratório. Não resolvê-la dentro do código.
+Não acoplar telas diretamente à infraestrutura quando o contrato puder isolar a implementação.
 
-## Arquitetura visual
+## Reabertura
 
-React e Flutter devem manter bibliotecas transversais equivalentes, respeitando seus próprios padrões.
-
-Responsabilidades que não devem ser reimplementadas tela por tela:
-
-- loading;
-- erro;
-- alerta;
-- feedback;
-- empty state;
-- modal/dialog;
-- formulários;
-- tema/tokens;
-- layout;
-- navegação;
-- estados comuns.
-
-Não confundir componente transversal com tela de negócio.
-
-## Contratos e infraestrutura
-
-Telas não devem depender diretamente de detalhes de infraestrutura externa quando houver possibilidade de abstração por contrato/adaptador.
-
-A intenção é permitir:
-
-```text
-Aplicação → contrato funcional → implementação selecionada
-                              ├─ Mock Services
-                              └─ serviço real de produção
-```
-
-A troca de infraestrutura não deve obrigar reescrita da tela.
-
-## Mock Services
-
-`advogadoja-mock-services/` é o ambiente externo simulado compartilhado.
-
-Ele não define UI do produto.
-
-Ele deve:
-
-- fornecer API/contratos;
-- manter estado compartilhado;
-- possuir dados fictícios;
-- suportar múltiplas instâncias/navegadores;
-- permitir seed e reset;
-- oferecer painel visual para inspeção/controle;
-- simular cenários de serviços externos;
-- registrar eventos/logs úteis à homologação.
-
-Google Maps pode ser integração real, mas dados de negócio de teste permanecem controlados pelo ambiente mock.
-
-A tecnologia definitiva de persistência/hospedagem do mock continua pendente de planejamento. Não escolher silenciosamente.
-
-## Produção
-
-Não conectar Firebase, MongoDB, Stripe, Functions ou outro serviço real apenas porque o código ou configuração já existe.
-
-A migração mock → produção deve ser planejada por integração, preservando contratos e comportamento homologado.
+Se Advogado ou Administrador exigir mudança no Cliente já homologado, não corrigir apenas uma aplicação. Reabrir a revisão da jornada afetada, sincronizar artefatos, aplicar a mudança em todas as implementações pertinentes e rodar regressão.
 
 ## Autoridade local
 
-Ao trabalhar nesta pasta, obedecer:
+Ao trabalhar aqui:
 
 1. `/AGENTS.md`;
-2. este `/aplicacoes/AGENTS.md`;
-3. o `AGENTS.md` da aplicação específica;
-4. plano aprovado do lote atual.
+2. `/orquestracao/AGENTS.md` e plano ativo;
+3. `/aplicacoes/AGENTS.md`;
+4. AGENTS da aplicação específica.
 
-Em conflito, a regra de nível superior prevalece, salvo decisão explícita posterior.
+## Segurança
+
+Nunca commitar segredos, tokens, credenciais ou dados pessoais reais.
