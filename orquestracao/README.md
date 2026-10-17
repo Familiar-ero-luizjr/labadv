@@ -1,35 +1,43 @@
 # Orquestração — Advogado Já
 
-Esta pasta substitui a função operacional da antiga `planejamento/`.
+A pasta `orquestracao/` é o centro operacional do laboratório. Ela coordena a ordem em que as áreas especialistas trabalham.
 
-A Orquestração possui três sub-abas, todas alimentadas pelo **mesmo** `orquestracao.json`:
+A interface possui três sub-abas alimentadas pelo mesmo `orquestracao.json`:
 
-- **Planejamento** — auditoria, contexto, decisões aplicáveis, escopo, estratégia, tarefas concretas e critérios de saída.
-- **Execução** — pacote gerado do planejamento. O executor marca estado, evidência, resultado e bloqueios; não redefine a arquitetura.
-- **Regras** — constituição operacional e protocolos usados para auditar e planejar.
+- **Planejamento** — blocos, fases, auditoria, contexto, escopo, tarefas e critérios.
+- **Execução** — a mesma hierarquia, com o pacote executável gerado pelo planejamento.
+- **Regras** — regras globais e protocolos reutilizáveis.
 
-## Arquivos
+## Estrutura canônica
 
-- `orquestracao.json` — fonte de dados única do módulo.
-- `index.html` — estrutura visual das três sub-abas.
-- `estilos.css` — apresentação.
-- `app.js` — leitura, edição, ordenação, geração da execução, importação/exportação e validações locais.
-- `AGENTS.md` — regras obrigatórias para agentes.
+```text
+Bloco
+└── Fase
+    ├── Planejamento
+    └── Execução
+```
 
-## Identidade e ordem
+**Bloco** é um objetivo macro. **Fase** é uma etapa ordenada dentro daquele bloco.
 
-O número mostrado no card é calculado pela posição. Ele **não é identidade**.
+A ordem de `blocos[]` e `blocos[].fases[]` é a ordem real de trabalho. `B1`, `B2`, `F1`, `F2` são apenas posições visuais; os IDs técnicos permanecem estáveis.
 
-Cada card tem `id` técnico estável. Reordenar um card em Planejamento reordena o mesmo objeto em Execução. Não existem `F00`, `F01A` ou renumerações de IDs.
+## Edição
 
-## Edição e persistência
+A interface permite criar, reordenar, editar e arquivar blocos e fases; gerar execução; registrar evidências, resultados, bloqueios e handoff; editar regras/protocolos; importar e exportar o JSON.
 
-A página carrega `orquestracao.json`. Alterações ficam em memória até **Exportar JSON editado**. O navegador não grava no GitHub automaticamente.
+Mover no Planejamento altera a ordem na Execução, pois as duas abas exibem os mesmos objetos.
 
-Também é possível importar outro JSON compatível ou usar o editor do JSON completo.
+## Persistência
 
-## Migração do Planejamento V1
+A página não grava diretamente no GitHub. Para persistir: editar → exportar `orquestracao.json` → substituir no repositório → revisar diff → commitar.
 
-Os registros do antigo `planejamento/registros.csv` e a estrutura anterior foram preservados dentro do `orquestracao.json` para auditoria da migração.
+## Blocos iniciais
 
-Não apagar `planejamento/` antes de verificar a nova aba no GitHub Pages. Depois da validação, a pasta antiga pode ser removida para evitar duas fontes concorrentes.
+1. Governança do repositório
+2. Regras de operação
+3. Usuários, identidade e acesso
+4. Normalização estrutural para três jornadas
+5. Jornada Cliente
+6. Jornada Advogado
+7. Jornada Administrador
+8. Consolidação transversal
