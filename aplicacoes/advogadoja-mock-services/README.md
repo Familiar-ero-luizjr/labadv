@@ -1,70 +1,90 @@
-# AdvogadoJá+ Mock Services
+# Advogado Já — Mock Services
 
-Aplicação React + servidor HTTP local para simular o backend e as integrações do AdvogadoJá+.
+`advogadoja-mock-services` é o **ambiente externo simulado compartilhado** usado pelas implementações React e Flutter durante desenvolvimento e homologação.
 
-## O ponto principal
+Ele não é a aplicação do usuário e não é um protótipo de tela.
 
-O painel React e um aplicativo Flutter externo podem conversar com **a mesma Mock API**. A API mantém o estado em memória, executa handlers, aplica cenários e injeta falhas. Assim o cliente não precisa saber se a resposta veio do Firebase/Stripe/Maps reais ou do laboratório mock — desde que o contrato usado pelo cliente seja equivalente.
+## Objetivo
 
-## Dados incorporados
+Permitir que o Advogado Já funcione de forma real sem depender, durante homologação, de toda a infraestrutura externa de produção.
 
-O pacote materializa os dados fictícios fornecidos na base `dados_previstos_no_banco`, preservando os conjuntos previstos para usuários, clientes, advogados, escritórios, solicitações, assinaturas, pagamentos, suporte, denúncias, privacidade, notificações e outros.
+Exemplo de cenário:
 
-Também estão representadas as operações encontradas no inventário legado, mas isso **não decide** que elas serão Cloud Functions no MVP final.
+1. Cliente abre a aplicação em uma instância;
+2. cria uma solicitação;
+3. Advogado abre outra instância;
+4. a solicitação aparece para ele;
+5. ele aceita;
+6. Cliente observa a mudança.
 
-## Rodar
+Para isso, o mock precisa manter **estado compartilhado** entre instâncias. Não pode depender apenas de `localStorage` ou memória isolada de uma aba.
 
-```bash
-npm install
-npm run validate
-npm run validate:imports
-npm run typecheck
-npm test
-```
+## Responsabilidades
 
-### Terminal 1 — servidor mock
+O ambiente deve evoluir para oferecer:
 
-```bash
-npm run mock:api
-```
+- API compartilhada;
+- persistência própria de homologação;
+- contas e usuários fictícios;
+- advogados fictícios;
+- solicitações e eventos;
+- OAB e estados de validação;
+- assinaturas e pagamentos simulados;
+- notificações;
+- dados de localização;
+- cenários de sucesso/erro;
+- seed/reset;
+- logs;
+- painel visual para inspeção e controle.
 
-A API sobe por padrão em `http://localhost:8787`.
+## Painel visual
 
-### Terminal 2 — painel React
+O painel existe para administrar e observar o ambiente simulado.
 
-```bash
-npm run dev
-```
+Ele pode permitir, por exemplo:
 
-O painel usa `VITE_MOCK_API_URL=http://localhost:8787`.
+- trocar estado de OAB;
+- inspecionar usuários;
+- criar/resetar seed;
+- mudar estado de pagamento;
+- executar cenário de falha;
+- visualizar solicitações;
+- acompanhar logs.
 
-## Endpoints principais
+O painel não substitui a aplicação Cliente/Advogado/Admin.
 
-- `GET /health`
-- `GET /api/firestore`
-- `GET/POST /api/firestore/:collection`
-- `GET/PATCH/DELETE /api/firestore/:collection/:id`
-- `GET /api/functions`
-- `POST /api/functions/:name`
-- `POST /api/auth/sign-in`
-- `POST /api/auth/sign-out`
-- `POST /api/stripe/checkout`
-- `POST /api/stripe/webhook`
-- `GET /api/maps/location`
-- `POST /api/maps/geocode`
-- `POST /api/maps/distance`
-- `GET /api/scenarios`
-- `POST /api/scenarios/:id/run`
-- `GET/POST /api/chaos`
-- `GET /api/logs`
-- `POST /api/admin/reset`
+O ciclo normal do negócio deve ser exercitado pelas aplicações reais sempre que possível.
 
-## Teste externo rápido
+## Google Maps
 
-```bash
-curl http://localhost:8787/health
-curl http://localhost:8787/api/firestore/users
-curl http://localhost:8787/api/functions
-```
+Google Maps é uma exceção autorizada de serviço externo durante homologação.
 
-O `package-lock.json` é criado pelo `npm install`; ele não é pré-fabricado neste ZIP para evitar um lock falso.
+A renderização/API do mapa pode ser real, enquanto os dados de negócio exibidos — por exemplo advogados e coordenadas de teste — continuam vindo do mock.
+
+## Persistência e deploy
+
+O requisito de produto é manter o ambiente simples de executar e, se viável, simples de publicar em infraestrutura como Netlify.
+
+A tecnologia definitiva de persistência ainda **não está decidida**.
+
+Antes de escolhê-la, deve ser feito planejamento considerando:
+
+- estado compartilhado;
+- múltiplos navegadores;
+- persistência entre reinícios;
+- concorrência;
+- seed/reset;
+- painel;
+- logs;
+- segurança do ambiente;
+- custo e facilidade de deploy.
+
+Não assumir que cache/localStorage resolve estado compartilhado.
+
+## Relação com produção
+
+O mock deve seguir contratos funcionais que possam depois ser atendidos por integrações reais.
+
+Ele não decide como Firebase, Stripe, MongoDB ou Functions serão configurados em produção.
+
+Consulte [AGENTS.md](AGENTS.md) antes de alterar a arquitetura.
