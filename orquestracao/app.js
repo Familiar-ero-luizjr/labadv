@@ -53,7 +53,6 @@ $('importBtn').onclick=()=>$('fileInput').click();$('fileInput').onchange=async 
 $('resetBtn').onclick=async()=>{if(dirty&&!confirm('Há alterações não exportadas. Recarregar orquestracao.json e descartá-las?'))return;await loadPublished(true)};
 async function loadPublished(force=false){try{const r=await fetch('orquestracao.json',{cache:'no-store'});if(!r.ok)throw Error('HTTP '+r.status);const loaded=validate(await r.json());published=clone(loaded);data=clone(loaded);markClean('orquestracao.json carregado');render()}catch(e){$('statusText').textContent='Não foi possível carregar orquestracao.json: '+e.message+' · use Importar JSON';if(force)alert('Falha ao recarregar orquestracao.json: '+e.message);render()}}
 window.addEventListener('beforeunload',e=>{if(dirty){e.preventDefault();e.returnValue=''}});loadPublished();
-})();
 
 /* === ORQUESTRACAO V2: BLOCOS -> FASES === */
 function validate(d){
@@ -154,3 +153,4 @@ function generateExecution(id){
 }
 $('addPhaseTop').onclick=()=>addBlockAt(null,'after');
 
+})();
