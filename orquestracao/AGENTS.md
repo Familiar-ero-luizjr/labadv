@@ -2,95 +2,84 @@
 
 ## Missão
 
-Orquestrar o trabalho do projeto Advogado Já com contexto mínimo, decisões rastreáveis e execução mecânica.
+Coordenar o projeto Advogado Já por **blocos e fases**, mantendo contexto mínimo, decisões rastreáveis e execução mecânica.
 
-`orquestracao.json` é a fonte única desta pasta. HTML, CSS e JavaScript são apenas interface/motor.
+`orquestracao.json` é a fonte única desta pasta. HTML, CSS e JavaScript são interface/motor.
 
-## Três responsabilidades
-
-1. **Planejamento** pensa: audita, encontra fatos, decide contexto, organiza escopo, produz tarefas concretas e valida o plano.
-2. **Execução** faz: segue o pacote gerado, registra evidências e bloqueia quando a instrução é insuficiente.
-3. **Regras** governam: definem método, limites e protocolos reutilizáveis.
-
-## Regra obrigatória de trabalho
+## Hierarquia obrigatória
 
 ```text
-auditar → planejar → validar o plano → gerar execução → executar → validar → handoff
+bloco → fase → planejamento → execução
 ```
 
-Não começar a escrever código durante auditoria ou antes de o plano estar suficientemente específico.
+- **Bloco**: objetivo macro.
+- **Fase**: etapa ordenada do bloco.
+- **Planejamento**: auditoria, diagnóstico, escopo, contexto, tarefas e validações.
+- **Execução**: pacote gerado; registra evidência, resultado, bloqueio e handoff.
+
+`B1`, `F1` etc. são somente posição. IDs internos são estáveis.
+
+## Regra máxima
+
+```text
+auditar → planejar → validar plano → gerar execução → executar → validar → handoff
+```
+
+Não editar produto durante auditoria. Não executar antes de existir plano específico. Não improvisar quando o estado real divergir do plano.
+
+## Blocos
+
+Cada bloco deve declarar objetivo, critérios de entrada, critérios de conclusão, fases, estado e observações.
+
+Blocos podem ser criados, reordenados e arquivados. Bloco com histórico não deve ser apagado.
+
+## Fases
+
+Cada fase deve registrar objetivo, protocolo, contexto obrigatório e proibido, achados, decisões, escopo, validações, critérios de saída e tarefas concretas quando houver escrita.
+
+Uma fase só está pronta para gerar Execução quando uma IA com baixa capacidade de raciocínio consegue seguir as tarefas sem escolher arquitetura, escopo ou regra de produto.
+
+## Tarefas executáveis
+
+Toda tarefa deve informar: alvo exato, tipo de ação, precondições, referências, instruções em ordem, resultado esperado e validações.
+
+Evitar instruções vagas como “melhorar”, “organizar”, “corrigir” ou “refatorar” sem especificação.
 
 ## Contexto e economia de tokens
 
-Antes de qualquer etapa:
+Antes de uma fase:
 
-1. ler `AGENTS.md` raiz;
+1. ler o `AGENTS.md` raiz;
 2. ler este arquivo;
-3. localizar o card ativo e suas regras/protocolo;
-4. carregar apenas `contexto.ler_obrigatorio`;
-5. respeitar `contexto.nao_ler`;
-6. buscar trechos específicos antes de abrir arquivos grandes por inteiro.
+3. localizar `contexto_atual`;
+4. ler bloco e fase ativos;
+5. carregar apenas `planejamento.contexto.ler_obrigatorio`;
+6. respeitar `planejamento.contexto.nao_ler`;
+7. preferir busca/trechos a leitura integral de artefatos grandes;
+8. usar o handoff anterior.
 
-Não reler todo o repositório por padrão.
+Não carregar o repositório inteiro por padrão.
 
-## Qualidade do planejamento
+## Áreas especialistas
 
-Uma tarefa só é executável quando especifica:
+A Orquestração decide **quando e com qual objetivo** uma área atua; não substitui o `AGENTS.md` local.
 
-- alvo/caminho;
-- precondições;
-- decisões/referências;
-- instruções em ordem;
-- resultado esperado;
-- validação.
-
-Evitar verbos genéricos como “ajustar”, “melhorar” ou “organizar” sem dizer exatamente o que deve mudar.
-
-A pergunta de controle é: **uma IA com pouca capacidade de raciocínio conseguiria executar sem escolher arquitetura ou inventar requisito?** Se não, o planejamento ainda não está pronto.
+Ao trabalhar numa pasta, obedecer também ao AGENTS local, que deve definir o que a área pode ler, alterar, decidir e entregar.
 
 ## Execução
 
-A execução não pode reinterpretar o plano.
-
-Se encontrar:
-
-- arquivo diferente do previsto;
-- conflito arquitetural;
-- requisito ausente;
-- instrução ambígua;
-- risco não previsto;
-
-marcar a tarefa como `bloqueado`, registrar o impedimento e devolver ao Planejamento.
-
-Nunca improvisar para manter o checklist avançando.
+A Execução não redefine o plano. Arquivo diferente, requisito ausente, conflito de arquitetura, dependência não prevista, instrução ambígua ou risco novo relevante devem bloquear a tarefa e devolvê-la ao Planejamento.
 
 ## Revisões e histórico
 
-- IDs internos não mudam quando a ordem muda.
-- Uma execução gerada corresponde a uma revisão do plano.
-- Se o plano mudar depois da geração, a execução fica desatualizada e deve ser regenerada.
-- A versão anterior deve permanecer no histórico.
-- Decisão que muda de significado preserva o registro anterior e aponta sua substituição.
-
-## Reordenação
-
-A ordem do array `fases` é a ordem de trabalho.
-
-Planejamento e Execução mostram os mesmos cards; portanto, mover em uma aba move na outra.
-
-Não usar números visuais como IDs permanentes.
-
-## Relação com aplicações
-
-React/Node/Mongo e Flutter são duas implementações do mesmo Advogado Já. O planejamento técnico deve produzir tarefas específicas para cada tecnologia preservando equivalência funcional.
-
-`advogadoja-mock-services` é infraestrutura externa simulada compartilhada. Ele deve ser planejado como parte dos lotes quando contratos ou cenários exigirem.
+IDs não mudam com reordenação. Execução corresponde a uma revisão do plano. Se o plano mudar, a execução deve ser regenerada e a anterior preservada no histórico. Decisões alteradas preservam evolução. Bloco/fase com histórico deve ser arquivado, não apagado.
 
 ## Persistência
 
-Edições feitas pela página não alteram o repositório. Para persistir:
+A interface edita em memória. Para persistir: exportar `orquestracao.json`, substituir no repositório, validar schema, revisar diff e commitar.
 
-1. exportar `orquestracao.json`;
-2. substituir o arquivo no repositório;
-3. revisar diff;
-4. commitar somente depois de validar o JSON.
+## Schema
+
+Esperado: `advogadoja.orquestracao.v2`.
+
+Não reintroduzir `fases[]` na raiz; usar `blocos[].fases[]`.
