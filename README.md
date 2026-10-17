@@ -90,3 +90,7 @@ A autoridade funcional é:
 5. referências e materiais legados.
 
 Conflitos devem ser expostos e resolvidos; nunca corrigidos silenciosamente por suposição.
+
+## Protótipo navegável unificado (4 jornadas)
+
+Na aba **Protótipo** do `index.html`, é possível escolher Cliente, Advogado, Estudante ou Administrador e navegar pelos caminhos atualmente documentados. Consulte `prototipo/README.md` para execução local, limites de interatividade e manutenção dos snapshots.
