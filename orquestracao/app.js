@@ -54,3 +54,103 @@ $('resetBtn').onclick=async()=>{if(dirty&&!confirm('Há alterações não export
 async function loadPublished(force=false){try{const r=await fetch('orquestracao.json',{cache:'no-store'});if(!r.ok)throw Error('HTTP '+r.status);const loaded=validate(await r.json());published=clone(loaded);data=clone(loaded);markClean('orquestracao.json carregado');render()}catch(e){$('statusText').textContent='Não foi possível carregar orquestracao.json: '+e.message+' · use Importar JSON';if(force)alert('Falha ao recarregar orquestracao.json: '+e.message);render()}}
 window.addEventListener('beforeunload',e=>{if(dirty){e.preventDefault();e.returnValue=''}});loadPublished();
 })();
+
+/* === ORQUESTRACAO V2: BLOCOS -> FASES === */
+function validate(d){
+  if(!d||d.schema!=='advogadoja.orquestracao.v2'||!Array.isArray(d.blocos)||!d.regras||!Array.isArray(d.regras.globais)||!Array.isArray(d.regras.protocolos)) throw Error('JSON incompatível: esperado advogadoja.orquestracao.v2');
+  const ids=new Set(), taskIds=new Set();
+  d.contexto_atual=d.contexto_atual||{bloco_id:null,fase_id:null,modo:'planejamento'};
+  d.historico=d.historico||[]; d.registros=d.registros||[];
+  for(const b of d.blocos){
+    if(!b.id||ids.has(b.id)) throw Error('ID de bloco ausente/duplicado: '+(b.id||'?')); ids.add(b.id);
+    if(!Array.isArray(b.fases)) throw Error('Bloco '+b.id+' sem fases[]');
+    for(const p of b.fases){
+      if(!p.id||ids.has(p.id)) throw Error('ID de fase ausente/duplicado: '+(p.id||'?')); ids.add(p.id);
+      if(!p.planejamento||!p.execucao) throw Error('Fase '+p.id+' sem planejamento/execução');
+      for(const t of (p.planejamento.tarefas_execucao||[])){
+        if(!t.id||taskIds.has(t.id)) throw Error('ID de tarefa ausente/duplicado: '+(t.id||'?')); taskIds.add(t.id);
+      }
+    }
+  }
+  return d;
+}
+function activeBlocks(){return (data.blocos||[]).filter(b=>!b.arquivado)}
+function activePhases(block){return block?(block.fases||[]).filter(p=>!p.arquivada):activeBlocks().flatMap(b=>(b.fases||[]).filter(p=>!p.arquivada))}
+function phaseOwner(id){for(const b of (data.blocos||[])){const p=(b.fases||[]).find(x=>x.id===id);if(p)return{block:b,phase:p}}return null}
+function getPhase(id){return phaseOwner(id)?.phase}
+function blockNum(b){return activeBlocks().indexOf(b)+1}
+function phaseNum(p){const o=phaseOwner(p.id);return o?activePhases(o.block).indexOf(p)+1:0}
+function renderMetrics(){
+  const ps=activePhases();
+  $('mPhases').textContent=ps.length;
+  $('mReady').textContent=ps.filter(p=>p.status==='pronto').length;
+  $('mGenerated').textContent=ps.filter(p=>p.execucao.status!=='nao_gerada').length;
+  $('mDone').textContent=ps.filter(p=>p.execucao.status==='concluida').length;
+  $('mBlocked').textContent=ps.reduce((n,p)=>n+(p.execucao.bloqueios?.length||0)+(p.execucao.itens||[]).filter(i=>i.status==='bloqueado').length,0);
+}
+function blockPill(b){return '<span class="pill">'+esc(b.status||'rascunho')+'</span><span class="pill purple">'+activePhases(b).length+' fase(s)</span>'}
+function renderPlanning(){
+  const root=$('planningCards');
+  root.innerHTML=activeBlocks().map((b,bi)=>{
+    const phases=activePhases(b).map((p,pi)=>'<article class="card phase-v2" data-phase="'+esc(p.id)+'"><div class="card-head"><div class="phase-pos">F'+(pi+1)+'</div><div class="card-title"><strong>'+esc(p.titulo)+'</strong><small>'+esc(p.planejamento.objetivo||'Sem objetivo definido')+'</small><div class="chips"><span class="pill">'+esc(p.status)+'</span><span class="pill purple">'+esc(protocolName(p.protocolo_id))+'</span><span class="pill">rev. '+(p.planejamento.revisao||0)+'</span>'+(p.execucao.status!=='nao_gerada'?'<span class="pill '+(p.execucao.status==='concluida'?'green':'warn')+'">execução '+esc(p.execucao.status)+'</span>':'')+'</div></div><div class="card-actions"><button class="btn tiny" data-before="'+esc(p.id)+'">+ antes</button><button class="btn tiny" data-after="'+esc(p.id)+'">+ depois</button><button class="btn tiny" data-up="'+esc(p.id)+'">↑</button><button class="btn tiny" data-down="'+esc(p.id)+'">↓</button><button class="btn tiny" data-edit-phase="'+esc(p.id)+'">Editar plano</button><button class="btn tiny good" data-generate="'+esc(p.id)+'">Gerar execução</button><button class="btn tiny danger" data-archive="'+esc(p.id)+'">Arquivar</button></div></div><div class="card-body"><div class="summary-grid"><div class="summary-box"><b>Auditoria</b><span>'+esc((p.planejamento.auditoria?.resumo||'Não preenchida').slice(0,220))+'</span></div><div class="summary-box"><b>Contexto</b><span>'+summaryCount(p.planejamento.contexto?.ler_obrigatorio)+' leitura(s) obrigatória(s)\n'+summaryCount(p.planejamento.contexto?.nao_ler)+' exclusão(ões)</span></div><div class="summary-box"><b>Plano executável</b><span>'+summaryCount(p.planejamento.tarefas_execucao)+' tarefa(s) concreta(s)\n'+summaryCount(p.planejamento.validacoes)+' validação(ões)</span></div><div class="summary-box"><b>Saída</b><span>'+summaryCount(p.planejamento.criterios_saida)+' critério(s)</span></div></div></div></article>').join('');
+    return '<section class="block-v2" data-block="'+esc(b.id)+'"><header class="block-v2-head"><div class="block-pos">B'+(bi+1)+'</div><div class="block-v2-title"><strong>'+esc(b.titulo)+'</strong><small>'+esc(b.objetivo||'Sem objetivo')+'</small><div class="chips">'+blockPill(b)+'</div></div><div class="block-v2-actions"><button class="btn tiny" data-block-before="'+esc(b.id)+'">+ antes</button><button class="btn tiny" data-block-after="'+esc(b.id)+'">+ depois</button><button class="btn tiny" data-block-up="'+esc(b.id)+'">↑</button><button class="btn tiny" data-block-down="'+esc(b.id)+'">↓</button><button class="btn tiny" data-edit-block="'+esc(b.id)+'">Editar bloco</button><button class="btn tiny danger" data-archive-block="'+esc(b.id)+'">Arquivar</button></div></header><div class="block-v2-body">'+(phases||'<div class="empty">Nenhuma fase ativa.</div>')+'<button class="btn add-phase-v2" data-add-phase-block="'+esc(b.id)+'">+ Fase neste bloco</button></div></section>';
+  }).join('')||'<div class="empty">Nenhum bloco ativo.</div>';
+  wirePhaseActions(root); wireBlockActions(root);
+  root.querySelectorAll('[data-add-phase-block]').forEach(x=>x.onclick=()=>addPhaseInBlock(x.dataset.addPhaseBlock));
+}
+function wireBlockActions(root){
+  root.querySelectorAll('[data-edit-block]').forEach(x=>x.onclick=()=>editBlock(x.dataset.editBlock));
+  root.querySelectorAll('[data-block-before]').forEach(x=>x.onclick=()=>addBlockAt(x.dataset.blockBefore,'before'));
+  root.querySelectorAll('[data-block-after]').forEach(x=>x.onclick=()=>addBlockAt(x.dataset.blockAfter,'after'));
+  root.querySelectorAll('[data-block-up]').forEach(x=>x.onclick=()=>moveBlock(x.dataset.blockUp,-1));
+  root.querySelectorAll('[data-block-down]').forEach(x=>x.onclick=()=>moveBlock(x.dataset.blockDown,1));
+  root.querySelectorAll('[data-archive-block]').forEach(x=>x.onclick=()=>archiveBlock(x.dataset.archiveBlock));
+}
+function newBlock(){return{id:uid('blk'),titulo:'Novo bloco',status:'rascunho',arquivado:false,objetivo:'',criterios_entrada:[],criterios_conclusao:[],observacoes:'',fases:[]}}
+function addBlockAt(ref,where){
+  const b=newBlock(); if(!ref)data.blocos.push(b); else{let i=data.blocos.findIndex(x=>x.id===ref);if(where==='after')i++;data.blocos.splice(i,0,b)}
+  markDirty('Bloco criado'); render(); editBlock(b.id);
+}
+function editBlock(id){
+  const b=data.blocos.find(x=>x.id===id); if(!b)return;
+  const title=prompt('Título do bloco',b.titulo); if(title===null)return;
+  const objective=prompt('Objetivo do bloco',b.objetivo||''); if(objective===null)return;
+  const entry=prompt('Critérios de entrada — uma linha por item',(b.criterios_entrada||[]).join('\n')); if(entry===null)return;
+  const exit=prompt('Critérios de conclusão — uma linha por item',(b.criterios_conclusao||[]).join('\n')); if(exit===null)return;
+  const status=prompt('Status: rascunho | em_planejamento | em_execucao | bloqueado | em_validacao | concluido',b.status||'rascunho'); if(status===null)return;
+  b.titulo=title.trim()||b.titulo; b.objetivo=objective.trim(); b.criterios_entrada=arr(entry); b.criterios_conclusao=arr(exit); b.status=status.trim()||b.status;
+  markDirty('Bloco atualizado'); render();
+}
+function moveBlock(id,dir){
+  const bs=activeBlocks(),i=bs.findIndex(x=>x.id===id),j=i+dir;if(i<0||j<0||j>=bs.length)return;
+  const from=data.blocos.findIndex(x=>x.id===id),targetId=bs[j].id;const [item]=data.blocos.splice(from,1);let target=data.blocos.findIndex(x=>x.id===targetId);if(dir>0)target++;data.blocos.splice(target,0,item);markDirty('Ordem dos blocos atualizada');render();
+}
+function archiveBlock(id){const b=data.blocos.find(x=>x.id===id);if(!b)return;if(!confirm('Arquivar este bloco preservando suas fases e histórico?'))return;b.arquivado=true;b.status='arquivado';markDirty('Bloco arquivado');render()}
+function addPhaseInBlock(blockId){const b=data.blocos.find(x=>x.id===blockId);if(!b)return;const p=newPhase();b.fases.push(p);markDirty('Fase criada');render();editPhase(p.id)}
+function addPhaseAt(ref,where){
+  const o=phaseOwner(ref);if(!o)return;const p=newPhase();let i=o.block.fases.findIndex(x=>x.id===ref);if(where==='after')i++;o.block.fases.splice(i,0,p);markDirty('Fase criada');render();editPhase(p.id);
+}
+function reorderPhase(id,targetId,where){
+  const a=phaseOwner(id),b=phaseOwner(targetId);if(!a||!b||a.block.id!==b.block.id)return;
+  const arr0=a.block.fases,from=arr0.findIndex(x=>x.id===id),[item]=arr0.splice(from,1);let idx=arr0.findIndex(x=>x.id===targetId);if(where==='after')idx++;arr0.splice(idx,0,item);markDirty('Ordem das fases atualizada nas duas abas');render();
+}
+function movePhase(id,dir){
+  const o=phaseOwner(id);if(!o)return;const ps=activePhases(o.block),i=ps.findIndex(x=>x.id===id),j=i+dir;if(i<0||j<0||j>=ps.length)return;reorderPhase(id,ps[j].id,dir<0?'before':'after');
+}
+function renderExecution(){
+  const root=$('executionCards');
+  root.innerHTML=activeBlocks().map((b,bi)=>'<section class="block-v2 exec-block-v2"><header class="block-v2-head"><div class="block-pos">B'+(bi+1)+'</div><div class="block-v2-title"><strong>'+esc(b.titulo)+'</strong><small>'+esc(b.objetivo||'Sem objetivo')+'</small><div class="chips">'+blockPill(b)+'</div></div></header><div class="block-v2-body">'+activePhases(b).map((p,pi)=>{const e=p.execucao,stale=e.status==='plano_alterado'||(e.status!=='nao_gerada'&&e.revisao_plano!==p.planejamento.revisao);return '<article class="card exec-card"><div class="card-head"><div class="phase-pos">F'+(pi+1)+'</div><div class="card-title"><strong>'+esc(p.titulo)+'</strong><small>'+esc(p.planejamento.objetivo||'Sem objetivo')+'</small><div class="chips"><span class="pill">'+esc(e.status)+'</span><span class="pill">plano rev. '+(e.revisao_plano||0)+'</span>'+(stale?'<span class="pill red">plano alterado: regenerar</span>':'')+'</div></div><div class="card-actions"><button class="btn tiny" data-edit-phase="'+esc(p.id)+'">Voltar ao plano</button>'+(e.status==='nao_gerada'?'<button class="btn tiny good" data-generate="'+esc(p.id)+'">Gerar execução</button>':'')+'</div></div><div class="exec-body">'+(e.status==='nao_gerada'?'<div class="empty">Ainda não existe pacote executável.</div>':renderExecutionBody(p))+'</div></article>'}).join('')+'</div></section>').join('')||'<div class="empty">Nenhum bloco ativo.</div>';
+  wirePhaseActions(root); wireExecutionInputs(root);
+}
+function generateExecution(id){
+  const o=phaseOwner(id);if(!o)return;const p=o.phase;
+  if(p.status!=='pronto')return alert('Marque a fase como Pronto para execução depois de revisar o planejamento.');
+  if(!(p.planejamento.tarefas_execucao||[]).length)return alert('O plano ainda não possui tarefas concretas.');
+  if(p.execucao.status!=='nao_gerada'&&!confirm('A execução atual será preservada no histórico e substituída. Continuar?'))return;
+  if(p.execucao.status!=='nao_gerada')data.historico.unshift({id:uid('hist'),tipo:'execucao_substituida',bloco_id:o.block.id,fase_id:p.id,em:now(),revisao_plano:p.execucao.revisao_plano,execucao:clone(p.execucao)});
+  p.planejamento.revisao=(p.planejamento.revisao||0)+1;
+  p.execucao={status:'pronta',revisao_plano:p.planejamento.revisao,gerada_em:now(),itens:p.planejamento.tarefas_execucao.map((t,i)=>({...clone(t),id:t.id||uid('tsk'),ordem:i+1,status:'pendente',evidencia:'',resultado:'',impedimento:''})),bloqueios:[],resultado:'',handoff:''};
+  data.contexto_atual={bloco_id:o.block.id,fase_id:p.id,modo:'execucao'}; markDirty('Pacote de execução gerado'); render(); document.querySelector('[data-tab="execucao"]').click();
+}
+$('addPhaseTop').onclick=()=>addBlockAt(null,'after');
+
