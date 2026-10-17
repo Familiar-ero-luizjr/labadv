@@ -160,7 +160,8 @@ function buildSrcdoc(screen) {
     button,a,input,select,textarea{pointer-events:none!important;}
     .prototype-drawer,.drawer-backdrop,.open-index,.sheet{display:none!important;}
   `;
-  return `<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>${GLOBAL_RUNTIME_CSS}\n${screen.css||""}\n${previewOverrides}</style></head><body>${screen.html}</body></html>`;
+  const closeBodyTag = "</bo" + "dy>";
+  return `<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>${GLOBAL_RUNTIME_CSS}\n${screen.css||""}\n${previewOverrides}</style></head><body>${screen.html}${closeBodyTag}</html>`;
 }
 
 function openScreen(key) {
