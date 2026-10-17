@@ -1,102 +1,150 @@
-# Construção das aplicações
+# AGENTS.md — Aplicações
 
-## Estado atual
+## Missão
 
-- `advogadoja-mock-services/` é o mock legado. Ele continua sendo a referência
-  executável de dados simulados enquanto a nova aplicação Flutter é definida.
-- `flutter/` foi limpo intencionalmente. Não restaure código, telas, rotas ou
-  estruturas anteriores sem uma decisão explícita.
-- Arquivos-base Flutter/Firebase, Rules e Functions que ainda estiverem em
-  `flutter/` são obsoletos e não são fonte de verdade. Eles ficam guardados
-  somente como insumos provisórios para refinamento futuro e podem conter mais
-  regras do que o necessário. Não os conecte, copie, use como requisito nem
-  tome decisões atuais a partir deles.
+Esta pasta contém a implementação executável do Advogado Já.
 
-## Ordem obrigatória de construção
+Não usar `aplicacoes/` para inventar jornada, tela ou regra de produto. A implementação começa somente depois de definição e protótipo aprovados.
 
-Uma tela só entra no Flutter depois de estar definida e fechada no construtor e
-no mapa. O fechamento inclui especificação, ações, navegação e integração de
-dados necessária. A sequência obrigatória é:
+## Regra de equivalência
+
+`advogadojaplus-v2/` e `flutter/` são duas implementações da **mesma aplicação**.
+
+Não criar divergência funcional entre elas por conveniência técnica.
+
+Devem permanecer equivalentes em:
+
+- telas aprovadas;
+- ações;
+- destinos;
+- estados;
+- regras;
+- validações observáveis;
+- contratos funcionais;
+- cenários homologados.
+
+A arquitetura interna pode e deve ser idiomática para cada tecnologia.
+
+## Regra máxima de execução
+
+Antes de modificar código de aplicação:
+
+1. **Auditar** o estado atual.
+2. **Planejar** a melhor solução.
+3. **Validar** o plano contra requisitos e arquitetura.
+4. **Executar** somente o que foi planejado.
+5. **Validar** o resultado com build, testes e comportamento.
+
+Não editar primeiro para "arrumar depois".
+
+Não produzir saltos arquiteturais, duplicação de responsabilidades ou arquivos improvisados para concluir mais rápido.
+
+## Trabalho por lotes
+
+A implementação pode ocorrer em lotes de telas.
+
+Antes de iniciar cada lote, registrar no plano:
+
+- quais telas entram;
+- qual jornada e decisão as autorizam;
+- o que já existe no React;
+- o que já existe no Flutter;
+- componentes reutilizáveis disponíveis;
+- componentes transversais faltantes;
+- contratos/API envolvidos;
+- estados de loading, erro, vazio e sucesso;
+- navegação e destinos;
+- dados lidos e gravados;
+- impacto no mock;
+- testes e critérios de conclusão.
+
+Só depois executar o lote nas duas implementações.
+
+## Fronteira entre definição e implementação
+
+O caminho obrigatório é:
 
 ```text
-Construtor + mapa (definir e fechar) → Flutter (implementar) → Mock (adaptar)
+definição funcional
+→ jornada fechada
+→ protótipo de baixa fidelidade
+→ planejamento técnico
+→ aplicações
+→ mock integrado
+→ homologação
+→ produção
 ```
 
-O mock é adaptado por último para reproduzir o contrato e o comportamento já
-fechados. Não use o mock para decidir a UI, a navegação ou regras ainda abertas.
-Enquanto uma tela ou fluxo não estiver fechado no construtor/mapa, não crie sua
-implementação Flutter nem endpoints, fixtures ou comportamento novo no mock.
+Se uma decisão funcional ainda estiver aberta, voltar ao laboratório. Não resolvê-la dentro do código.
 
-### Primeira sequência autorizada
+## Arquitetura visual
 
-1. splash;
-2. boas-vindas;
-3. login.
+React e Flutter devem manter bibliotecas transversais equivalentes, respeitando seus próprios padrões.
 
-Está autorizada somente a navegação visual desta sequência:
+Responsabilidades que não devem ser reimplementadas tela por tela:
+
+- loading;
+- erro;
+- alerta;
+- feedback;
+- empty state;
+- modal/dialog;
+- formulários;
+- tema/tokens;
+- layout;
+- navegação;
+- estados comuns.
+
+Não confundir componente transversal com tela de negócio.
+
+## Contratos e infraestrutura
+
+Telas não devem depender diretamente de detalhes de infraestrutura externa quando houver possibilidade de abstração por contrato/adaptador.
+
+A intenção é permitir:
 
 ```text
-Splash → Boas-vindas → Entrar → Em construção
+Aplicação → contrato funcional → implementação selecionada
+                              ├─ Mock Services
+                              └─ serviço real de produção
 ```
 
-O botão **Entrar** deve levar ao estado padrão **Em construção**. Os campos
-podem ser exibidos para preservar a estrutura da tela, mas não validam nem
-enviam credenciais. Google, Apple/iOS, recuperação de senha, criação de conta,
-autenticação e qualquer integração continuam fora de escopo até serem
-especificadas e fechadas no construtor/mapa.
+A troca de infraestrutura não deve obrigar reescrita da tela.
 
-## Fronteira obrigatória de dados
+## Mock Services
 
-As telas Flutter só podem depender de contratos/interfaces de dados neutros de
-infraestrutura. Elas não podem importar Firebase, Firestore, Functions, HTTP do
-mock, fixtures ou detalhes de serialização.
+`advogadoja-mock-services/` é o ambiente externo simulado compartilhado.
 
-```text
-Telas Flutter → contratos/interfaces → implementação selecionada
-                                             ├─ mock (agora)
-                                             └─ Firebase (futuro)
-```
+Ele não define UI do produto.
 
-O contrato define modelos, operações, erros e regras observáveis pela tela. A
-implementação mock atual deve cumprir esse contrato. No futuro, a implementação
-Firebase deverá cumprir o mesmo contrato; trocar a implementação não pode exigir
-alterações na camada de telas.
+Ele deve:
 
-## Recriação progressiva do mock
+- fornecer API/contratos;
+- manter estado compartilhado;
+- possuir dados fictícios;
+- suportar múltiplas instâncias/navegadores;
+- permitir seed e reset;
+- oferecer painel visual para inspeção/controle;
+- simular cenários de serviços externos;
+- registrar eventos/logs úteis à homologação.
 
-O mock precisa ser autossuficiente: deve iniciar, fornecer dados fictícios e
-exercitar seus fluxos sem depender do Flutter. Não importe código do Flutter no
-mock e não transforme o Flutter em pré-requisito para rodá-lo.
+Google Maps pode ser integração real, mas dados de negócio de teste permanecem controlados pelo ambiente mock.
 
-Para cada funcionalidade fechada no construtor/mapa:
+A tecnologia definitiva de persistência/hospedagem do mock continua pendente de planejamento. Não escolher silenciosamente.
 
-1. derive ou atualize o contrato de dados a partir da especificação fechada;
-2. implemente o Flutter somente contra esse contrato;
-3. adapte o mock e as fixtures para cumprir o contrato e o comportamento
-   fechado;
-4. mantenha testes de contrato ou validações equivalentes entre consumidor e
-   mock;
-5. só introduza uma adaptação Firebase quando essa fase for autorizada.
+## Produção
 
-Não migre o mock inteiro de uma vez, não replique telas no mock e não adicione
-Firebase por conveniência.
+Não conectar Firebase, MongoDB, Stripe, Functions ou outro serviço real apenas porque o código ou configuração já existe.
 
-## Firebase reservado
+A migração mock → produção deve ser planejada por integração, preservando contratos e comportamento homologado.
 
-Os arquivos Firebase existentes não definem o comportamento da nova UI nem
-autorizam integrações ativas. Eles são obsoletos; não os copie ou conecte e não
-os trate como requisitos. Quando a fase Firebase começar, refine os contratos
-fechados e implemente um adaptador separado, validando cada regra necessária em
-vez de herdar regras antigas. Evite Cloud Functions, salvo necessidade real de
-segredo de servidor, webhook, integração servidor-a-servidor ou privilégio não
-delegável ao cliente.
+## Autoridade local
 
-## Bootstrap e primeira jornada autorizados
+Ao trabalhar nesta pasta, obedecer:
 
-Foi autorizada uma casca inicial mínima em `flutter/lib/main.dart` para permitir
-publicar e verificar o Flutter Web. Ela agora também abriga exclusivamente a
-primeira jornada visual autorizada acima, baseada nas referências do Construtor
-V2. Não introduza comportamento além desse limite sem atualizar esta decisão.
+1. `/AGENTS.md`;
+2. este `/aplicacoes/AGENTS.md`;
+3. o `AGENTS.md` da aplicação específica;
+4. plano aprovado do lote atual.
 
-Não criar outros fluxos de negócio, autenticação, integração Firebase ou código
-de migração legada antes do fechamento correspondente.
+Em conflito, a regra de nível superior prevalece, salvo decisão explícita posterior.
