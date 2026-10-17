@@ -154,7 +154,7 @@
       <header class="topbar">
         <div class="brand">
           <strong>ADVOGADO JÁ · LAB</strong
-          ><span>Fechamento funcional antes da construção das telas</span>
+          ><span>Orquestração, definição e construção controlada do produto</span>
         </div>
         <div class="spacer"></div>
         <a class="doclink" href="README.md" target="_blank" rel="noopener"
@@ -166,10 +166,13 @@
       </header>
 
       <nav class="tabs" role="tablist" aria-label="Artefatos do laboratório">
+        <button class="tab" role="tab" aria-selected="true" data-tab="orquestracao">
+          Orquestração
+        </button>
         <button
           class="tab"
           role="tab"
-          aria-selected="true"
+          aria-selected="false"
           data-tab="inventario"
         >
           Inventário
@@ -218,29 +221,17 @@
         <button class="tab" role="tab" aria-selected="false" data-tab="mapa">
           Mapa integrado
         </button>
-        <button
-          class="tab"
-          role="tab"
-          aria-selected="false"
-          data-tab="planejamento"
-        >
-          Planejamento
-        </button>
         <button class="tab" role="tab" aria-selected="false" data-tab="legado">
           Legado
         </button>
-        <button
-          class="tab"
-          role="tab"
-          aria-selected="false"
-          data-tab="aplicacao"
-        >
-          Aplicações
-        </button>
+              <button class="tab" role="tab" aria-selected="false" data-tab="aplicacoes">Aplicações</button>
       </nav>
 
       <main class="stage">
-        <section class="panel active" data-panel="inventario">
+        <section class="panel active" data-panel="orquestracao">
+          <iframe title="Orquestração do projeto" src="orquestracao/index.html" loading="eager"></iframe>
+        </section>
+        <section class="panel" data-panel="inventario">
           <iframe
             title="Inventário Mestre de Telas"
             src="inventario.html"
@@ -284,7 +275,7 @@
         <section class="panel" data-panel="entrevista">
           <iframe
             title="Entrevista funcional"
-            src="definicao/index.html"
+            src="definicao/entrevista_funcional_4_jornadas.html"
             loading="lazy"
           ></iframe>
         </section>
@@ -302,13 +293,6 @@
             loading="lazy"
           ></iframe>
         </section>
-        <section class="panel" data-panel="planejamento">
-          <iframe
-            title="Planejamento e memória de decisões"
-            src="planejamento/index.html"
-            loading="lazy"
-          ></iframe>
-        </section>
         <section class="panel" data-panel="legado">
           <iframe
             title="Laboratório legado"
@@ -316,13 +300,7 @@
             loading="lazy"
           ></iframe>
         </section>
-        <section class="panel" data-panel="aplicacao">
-          <iframe
-            title="Aplicações"
-            src="aplicacao/index.html"
-            loading="lazy"
-          ></iframe>
-        </section>
+        <section class="panel" data-panel="aplicacoes"><iframe title="Aplicações" src="aplicacoes/index.html" loading="lazy"></iframe></section>
       </main>
     </div>
     <script>
@@ -350,9 +328,9 @@
           activate(tabs[next].dataset.tab);
         });
       });
-      activate(location.hash.slice(1) || "inventario", false);
+      activate(location.hash.slice(1) || "orquestracao", false);
       window.addEventListener("hashchange", () =>
-        activate(location.hash.slice(1) || "inventario", false),
+        activate(location.hash.slice(1) || "orquestracao", false),
       );
     </script>
   </body>
