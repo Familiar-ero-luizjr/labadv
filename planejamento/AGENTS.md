@@ -1,34 +1,29 @@
-# AGENTS.md — Planejamento/Memória Advogado Já V1
+# AGENTS.md — Planejamento legado
 
-## Missão
+## Estado
 
-Preservar a sequência de trabalho e decisões explícitas do usuário em dados externos, sem inventar funcionalidades.
+Esta pasta pertence ao sistema de planejamento anterior e foi **substituída operacionalmente por `orquestracao/`**.
 
-## Fonte única por responsabilidade
+Não criar novo planejamento autoritativo aqui.
 
-1. `planejamento.json`: fases, etapas, status e jornada principal.
-2. `registros.csv`: decisões, hipóteses, perguntas, ideias futuras, riscos e referências.
-3. `index.html`/`app.js`/`estilos.css`: visualização e edição local; **não são repositório de dados**.
+## Uso permitido
 
-## Política anti-alucinação
+- consulta histórica;
+- comparação durante migração;
+- preservação de decisões/registros ainda não incorporados;
+- apoio a auditoria quando a Orquestração solicitar.
 
-- A proposta de **Home Estudante como área do Cliente** ainda depende de aprovação detalhada. A condição de Estudante vinculada à conta Cliente foi decidida.
-- Não converter `proposto`, `a_analisar` ou `em_entrevista` em `confirmado` por inferência.
-- Sempre identificar origem, status, ID, jornada e etapa em um novo registro.
-- Cada ideia ou pendência precisa continuar visível, mesmo após muitos ciclos.
-- Nunca usar credenciais, tokens, dados pessoais reais nem segredos em arquivos públicos.
+## Uso proibido
 
-## Formatos, importação e validação
+- iniciar nova fase;
+- registrar como fonte principal o estado atual do projeto;
+- sobrescrever decisão mais recente da Orquestração/jornada;
+- reativar o fluxo antigo por conveniência.
 
-- Não reutilizar ID; arquivos importados devem manter campos e cabeçalho.
-- CSV UTF-8 BOM separado por `;`; respeitar as 13 colunas originais.
-- JSON com `schema: advogadoja.planejamento.v1`; etapa com ID estável e um dos estados previstos.
-- Antes de salvar no GitHub: rodar `python validar_dados.py` na raiz do pacote.
-- Exportar JSON após mudar etapas; exportar CSV após editar registros.
-- `snapshot-planejamento.json` é backup e intercâmbio, não substitui os dois arquivos de origem.
-- HTML não possui permissão de escrever em arquivos do servidor ou de commitar no GitHub.
+## Precedência
 
-## Método de execução
+`/AGENTS.md` → `orquestracao/` → jornada/decisão vigente → esta pasta como legado.
 
-Três jornadas: Cliente (com área Estudante por assinatura) → Advogado → Administrador.
-Entrevistar, revisar telas/legado, modelar banco e integrações, validar, atualizar protótipo/inventário/mapa, depois iniciar próxima.
+## Remoção
+
+Não apagar esta pasta apenas por estar substituída. A remoção deve ocorrer em tarefa explícita, após confirmar que registros necessários foram migrados e que nenhum link/publicação depende dela.
