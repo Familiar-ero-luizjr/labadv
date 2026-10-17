@@ -1,68 +1,54 @@
 # AGENTS.md — Mock Services
 
-## Escopo
+## Missão
 
-Estas regras valem somente para `aplicacoes/advogadoja-mock-services/`.
+Simular a infraestrutura externa necessária para implementar e homologar cada jornada do Advogado Já.
 
-Este projeto simula a infraestrutura externa usada pelas aplicações reais.
+Não é fonte de verdade do produto.
 
-## Não é fonte de verdade do produto
+## Trabalho por jornada
 
-Não criar telas, jornadas ou regras de negócio novas a partir do mock.
+Mock Services evolui junto com o lote/jornada que está sendo implementado.
 
-O mock implementa contratos e cenários já definidos.
-
-Quando uma necessidade não estiver fechada, registrar pendência em vez de inventar comportamento.
+Somente criar endpoint, evento, cenário ou dado quando houver contrato/necessidade funcional rastreável na jornada vigente.
 
 ## Estado compartilhado
 
 O ambiente deve suportar múltiplas instâncias/navegadores observando o mesmo estado.
 
-Não usar `localStorage` como fonte de verdade do ambiente.
+Não usar `localStorage` como fonte de verdade do ambiente compartilhado.
 
-A persistência definitiva ainda será escolhida por planejamento específico.
+Persistência/deploy definitivos exigem planejamento arquitetural explícito.
 
 ## Painel
 
-O painel administrativo do mock deve servir para:
+O painel do mock pode:
 
 - inspecionar estado;
-- editar dados fictícios quando autorizado;
-- executar cenários;
-- resetar/seedar ambiente;
+- editar dados fictícios autorizados;
+- seed/reset;
+- disparar cenários;
 - simular falhas;
-- consultar logs.
+- mostrar logs/evidências.
 
-Não replicar a UI do Advogado Já dentro do painel.
+Não replicar a UI do Advogado Já.
 
 ## Contratos
 
-Os endpoints e eventos devem representar contratos claros e estáveis para React e Flutter.
+React e Flutter devem consumir contratos equivalentes.
 
-Ao alterar contrato:
-
-1. auditar consumidores;
-2. planejar compatibilidade;
-3. atualizar mock;
-4. atualizar testes;
-5. validar React e Flutter.
+Mudança de contrato exige auditar consumidores, planejar compatibilidade, atualizar mock/testes e validar as duas aplicações.
 
 Não quebrar contrato silenciosamente.
 
-## Integrações externas
+## Integrações
 
-Google Maps pode ser real quando necessário.
+Google Maps pode ser real quando previsto pela jornada. Outras integrações permanecem simuladas até plano explícito de produção.
 
-Demais integrações externas devem permanecer simuladas até autorização explícita de migração.
+## Reabertura/regressão
 
-Nunca adicionar credenciais reais ao repositório.
+Se revisão de uma jornada alterar contrato já homologado, atualizar o mock e executar regressão nos consumidores afetados.
 
-## Processo obrigatório
+## Segurança
 
-Toda mudança estrutural passa por:
-
-```text
-auditoria → plano → validação do plano → execução → validação
-```
-
-Para mudanças de persistência/deploy, não executar antes de existir decisão arquitetural explícita.
+Nunca adicionar credenciais ou dados pessoais reais ao ambiente público/repositório.
