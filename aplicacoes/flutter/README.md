@@ -1,35 +1,83 @@
-# AdvogadoJá+ — Flutter
+# Advogado Já — Flutter
 
-## Estado atual
+Esta pasta contém a implementação real do Advogado Já em **Flutter**.
 
-O conteúdo de front e `lib/` foi removido intencionalmente para a reconstrução.
-Não há telas, rotas, ponto de entrada ou integração ativa nesta etapa.
+Ela deve representar o mesmo produto funcional de `../advogadojaplus-v2/`. A diferença entre as duas implementações é tecnológica, não de jornada ou regra.
 
-Os arquivos Flutter/Firebase, Rules e Functions remanescentes são obsoletos e
-não são fonte de verdade. Eles ficam apenas como insumos provisórios para
-refinamento futuro; não devem orientar decisões, ser copiados ou conectados.
+## Papel do Flutter
 
-## Como a reconstrução será feita
+Telas só entram aqui depois de:
 
-Cada tela será primeiro definida e fechada no construtor e no mapa, com sua
-especificação, ações e integração. Só então será implementada no Flutter; por
-último, o mock será adaptado para reproduzir o contrato e comportamento
-fechados.
+1. definição funcional;
+2. fechamento da jornada;
+3. validação no protótipo de baixa fidelidade;
+4. planejamento técnico do lote.
 
-O Flutter dependerá apenas de contratos/interfaces de dados. O mock em
-`../advogadoja-mock-services/` será a primeira implementação desses contratos;
-uma implementação Firebase futura substituirá somente esse adaptador, sem
-alterar as telas.
+Não usar o Flutter para resolver decisões de produto ainda abertas.
 
-A primeira sequência prevista é splash, boas-vindas e login. Ela ainda será
-especificada no construtor/mapa. Em particular, credenciais, Google e Apple/iOS
-do login não podem ser implementados no Flutter ou no mock antes desse
-fechamento.
+## Arquitetura desejada
 
-As regras operacionais completas estão em [`../AGENTS.md`](../AGENTS.md).
+A arquitetura deve ser idiomática para Flutter, sem copiar mecanicamente React.
 
-## Referências
+Ainda assim, deve preservar separações equivalentes, especialmente:
 
-- [Arquitetura atual](docs/ARQUITETURA.md)
-- [Árvore histórica removida](docs/ARVORE_LIB_HISTORICA.html)
-- [Mock Services](../advogadoja-mock-services/README.md)
+- telas/features;
+- navegação;
+- tema/tokens;
+- componentes reutilizáveis;
+- formulários;
+- loading;
+- erro;
+- alerta/feedback;
+- modal/dialog;
+- empty states;
+- contratos de dados;
+- serviços/adapters;
+- estado da aplicação.
+
+Essas responsabilidades devem ser reutilizáveis e não repetidas em cada tela.
+
+## Dados e integrações
+
+A UI Flutter deve depender de contratos/interfaces próprios da aplicação, evitando dependência direta de Firebase, Mock Services ou outro provedor dentro das telas.
+
+Objetivo:
+
+```text
+Tela Flutter → contrato → adapter selecionado
+                       ├─ Mock Services
+                       └─ Firebase/serviço real
+```
+
+Na homologação, o Flutter deve ser capaz de participar dos mesmos cenários compartilhados usados pela aplicação React.
+
+Exemplo: Cliente em uma instância cria uma solicitação; Advogado em outra instância recebe e aceita; ambas observam o mesmo estado.
+
+## Firebase
+
+Firebase é infraestrutura de produção possível para esta implementação, não fonte de verdade da jornada.
+
+Rules, Functions, Auth, Firestore, Storage e demais serviços só devem ser conectados após planejamento específico.
+
+A existência de arquivos antigos de Firebase não autoriza seu uso.
+
+## Equivalência com React
+
+Cada lote deve ser comparado com `../advogadojaplus-v2/` quanto a:
+
+- telas;
+- ações;
+- destinos;
+- estados;
+- validações;
+- mensagens funcionais;
+- dados;
+- cenários.
+
+## Processo obrigatório
+
+```text
+auditar → planejar → validar plano → executar → validar resultado
+```
+
+Consulte [AGENTS.md](AGENTS.md) antes de editar.
