@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Administrador · Fluxo dinâmico por ações</title>
+<title>Administrador · Fluxo dinâmico por ações · V3 Organizada</title>
 <style>
 :root{--bg:#f6f8fb;--panel:#fff;--ink:#172033;--muted:#667085;--line:#dfe5ee;--navy:#10233f;--blue:#2563eb;--blue-soft:#eff6ff;--gold:#b88932;--amber:#fff8e7;--proposal:#9a3412;--proposal-soft:#fff7ed}
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}body.modal-open{overflow:hidden}
@@ -16,6 +16,98 @@
 .modal-backdrop{position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(15,23,42,.70);backdrop-filter:blur(4px)}.modal-backdrop.open{display:flex}.modal{width:min(1440px,98vw);height:min(960px,96vh);display:flex;flex-direction:column;background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 34px 100px rgba(2,6,23,.45)}.modal-head{display:flex;align-items:flex-start;gap:12px;padding:15px 17px;border-bottom:1px solid var(--line)}.modal-title-wrap{min-width:0;flex:1}.modal-label{font-size:9px;font-weight:900;letter-spacing:.12em;color:#9a3412;text-transform:uppercase}.modal-title{margin:4px 0 0;color:var(--navy);font-size:17px}.modal-ref{margin-top:4px;color:#94a3b8;font:10px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;word-break:break-all}.modal-close{width:36px;height:36px;border:0;border-radius:10px;background:#f1f5f9;color:#475569;cursor:pointer;font-size:22px}.modal-body{flex:1;min-height:0;overflow:hidden;display:flex;padding:14px;background:#e9eef5}.web-preview{width:100%;height:100%;background:#fff;border:1px solid #cbd5e1;border-radius:12px;overflow:hidden;box-shadow:0 12px 36px rgba(15,23,42,.12)}.web-preview iframe{display:block;width:100%;height:100%;border:0;background:#eef2f6}.modal-foot{padding:9px 15px;border-top:1px solid var(--line);background:#f8fafc;color:#64748b;font-size:10px;text-align:center}
 @media(max-width:720px){.route-tabs{grid-template-columns:1fr 1fr}.page{padding:25px 12px 50px}.hero h1{font-size:28px}}
 @media(max-width:480px){.route-tabs{grid-template-columns:1fr}.preview-surface{grid-template-columns:42px 1fr auto;padding:13px 12px}.num{width:36px;height:36px}.flow-item:not(:last-child)::after{left:21px}.flow-item:not(:last-child)::before{left:12px}.badge{display:none}.modal-backdrop{padding:6px}.modal{height:98vh;border-radius:12px}.modal-body{padding:6px}.web-preview{border-radius:8px}}
+
+
+/* ================================================================
+  V3 · APRESENTAÇÃO DAS JORNADAS (isolada em cada HTML autocontido)
+  01. Layout e tokens | 02. Linha e cartões | 03. Decisões
+  04. Fases e sumário  | 05. Controles | 06. Responsividade
+  O CSS da prévia de telas não é alterado.
+================================================================ */
+:root{--journey-accent:#ad5528;--journey-soft:color-mix(in srgb,var(--journey-accent) 9%,white);--journey-border:color-mix(in srgb,var(--journey-accent) 25%,#dce5ed)}
+html{scroll-behavior:smooth}
+body{background:#f2f5f9;min-width:320px;}
+/* Cabeçalho NÃO sticky: evita sobreposição com o cabeçalho do LAB */
+.header{position:relative;top:auto;z-index:5;background:#fff;backdrop-filter:none;box-shadow:0 1px 0 #e3e9f1}
+.header-in{max-width:1120px;padding:14px 23px;min-height:65px}
+.brand strong{font-size:16px;letter-spacing:-.015em}
+.brand span{letter-spacing:.07em;font-size:10px}
+.badge{white-space:normal;text-align:right;line-height:1.35;max-width:340px}
+.page{max-width:1120px;padding:26px 22px 90px}
+.hero{text-align:left;padding:24px 27px 19px;border:1px solid #dfe7f0;border-radius:18px;background:#fff;box-shadow:0 6px 24px #19345208;margin:0 0 16px}
+.hero .eyebrow{color:var(--journey-accent);font-size:10px;letter-spacing:.115em;margin:0}
+.hero h1{font-size:clamp(22px,2.7vw,30px);line-height:1.24;margin:5px 0 9px;letter-spacing:-.03em}
+.hero p{margin:0;max-width:850px;font-size:12px;line-height:1.67}
+.hero .arch,.hero .notice,.hero>div[style]{max-width:none;margin:12px 0 0}
+.hero .legend{justify-content:flex-start;margin-top:14px;gap:6px}
+.legend span{font-size:10px;padding:5px 9px;line-height:1.4}
+.route-summary{max-width:none;margin:0 0 14px;background:#fff;border:1px solid #dae3ef;border-radius:14px;text-align:left;padding:13px 16px}
+.route-summary .route-heading{font-size:10px;font-weight:850;letter-spacing:.09em;text-transform:uppercase;color:#63758b;display:block;margin:0 0 9px}
+.route-chain{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+.route-chip{display:inline-flex;gap:7px;align-items:center;padding:6px 9px;border:1px solid #dce7f4;background:#f6f9fd;color:#244361;border-radius:8px;font-size:11px;font-weight:650;max-width:100%;line-height:1.4}
+.route-chip::before{content:'●';font-size:7px;color:var(--journey-accent)}
+.route-arrow{color:#92a4ba;font-weight:900;font-size:14px}
+.flow{max-width:930px;width:100%;margin:0 auto}
+/* A linha passa pelo corredor à esquerda e não por trás dos cartões. */
+.flow-phase{position:relative;padding:0 0 13px 26px;margin:0 0 5px 15px;border-left:2px solid #c8d6e6;min-width:0}
+.flow-phase::before{content:'';position:absolute;left:-6px;top:21px;width:10px;height:10px;background:var(--journey-accent);border:2px solid #fff;border-radius:100%;box-shadow:0 0 0 2px #ced9e7}
+.phase-head{display:flex;justify-content:space-between;align-items:center;gap:13px;padding:10px 10px 12px;margin:0 0 6px}
+.phase-heading{display:flex;gap:10px;align-items:center;min-width:0}
+.phase-marker{display:grid;flex:0 0 auto;place-items:center;width:36px;height:36px;border:1px solid var(--journey-border);border-radius:11px;background:var(--journey-soft);color:var(--journey-accent);font-size:12px;font-weight:950}
+.phase-copy{min-width:0}.phase-copy strong{display:block;font-size:14px;color:#192b42;line-height:1.35}
+.phase-copy small{display:block;color:#7c8da1;font-size:10px;margin-top:3px;line-height:1.4}
+.phase-toggle{flex:0 0 auto;border:1px solid #dbe4ef;background:#fff;border-radius:9px;padding:7px 10px;color:#4d6380;font-size:11px;font-weight:750;cursor:pointer;min-height:31px}
+.phase-toggle:hover{border-color:#a3b8d0;background:#f7faff}
+.phase-collapsed{display:none;margin:0 0 13px;padding:12px 14px;background:#f8fafd;border:1px dashed #cbd6e6;border-radius:10px;color:#63758c;font-size:11px}
+.flow-phase.is-collapsed .phase-stream{display:none}
+.flow-phase.is-collapsed .phase-collapsed{display:block}
+.flow-phase.is-collapsed{padding-bottom:10px}
+.flow-item{padding:0 0 24px;margin:0;position:relative;min-width:0}
+.flow-item:not(:last-child)::after{content:'↓';position:absolute;bottom:1px;top:auto;left:-35px;width:16px;height:19px;text-align:center;line-height:19px;color:#90a2b8;font-size:17px;background:#f2f5f9;z-index:2}
+.flow-item::before{content:'';position:absolute;left:-33px;top:25px;width:12px;height:12px;z-index:2;border:3px solid #f2f5f9;border-radius:50%;background:#93a8c1;box-shadow:0 0 0 1px #c4d1e1}
+.flow-item:last-child{padding-bottom:14px}
+.flow-card{border-radius:13px;border:1px solid #d9e3ee;box-shadow:0 3px 10px #10233f09;background:#fff;transition:box-shadow .14s,border-color .14s}
+.flow-card:hover{box-shadow:0 6px 20px #10233f14}
+.flow-card.decision-card{border:1px solid #e6ce93;box-shadow:0 3px 15px #a9741610}
+.flow-card.state-card{background:#fafbfd}
+.flow-card.pending-card{border:1px dashed #d9993d;background:#fffcf7}
+.preview-surface{display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:13px;min-height:70px;padding:12px 16px;align-items:center}
+.preview-surface .num{width:37px;height:37px;border-radius:10px;background:#10233f;font-size:11px}
+.preview-surface .copy{min-width:0;display:block}
+.copy strong{font-size:13px;font-weight:780;line-height:1.4;overflow-wrap:anywhere}
+.copy small{font-size:11px;line-height:1.52;margin-top:3px;overflow-wrap:anywhere}
+.kind{font-size:9px;border-radius:8px;padding:6px 9px;letter-spacing:0;text-align:center}
+.preview-surface[data-screen] .kind{background:#ecf4ff;color:#1755ab}
+.flow-card .branch-box{border-top:1px solid #ecdcb8;padding:13px 16px 15px;background:#fffdf8}
+.branch-label{font-size:10px;margin:0 0 9px;letter-spacing:.04em;color:#885d0d}
+.branch-label::before{content:'◇ ';font-size:13px}
+.route-tabs{grid-template-columns:repeat(auto-fit,minmax(166px,1fr));gap:8px}
+.route-tab{position:relative;min-height:68px;padding:10px 12px 10px 33px;border-radius:10px;text-align:left;background:#fff;transition:border-color .12s,background .12s;overflow-wrap:anywhere}
+.route-tab::before{content:'';position:absolute;left:11px;top:13px;width:12px;height:12px;border:2px solid #c8b98f;border-radius:50%;background:#fff}
+.route-tab.active{background:#fff4dc;border-color:#c69239;box-shadow:inset 0 0 0 1px #c6923933}
+.route-tab.active::before{background:#b88932;box-shadow:inset 0 0 0 3px #fff}
+.route-tab strong{font-size:11px;color:#5f450c;line-height:1.4}
+.route-tab small{font-size:10px;line-height:1.45;color:#8b7758;margin-top:5px}
+/* Controles de leitura */
+.journey-tools{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;padding:12px 14px;margin-bottom:12px;border:1px solid #dce5f0;background:#fff;border-radius:13px}
+.journey-actions{display:flex;flex-wrap:wrap;gap:7px}
+.journey-action{min-height:34px;padding:7px 11px;border:1px solid #d7e2ef;background:#fff;border-radius:8px;font-size:11px;font-weight:780;color:#47607b;cursor:pointer}
+.journey-action:hover,.journey-action.active{background:#eef5ff;border-color:#b4cef2;color:#1e58a1}
+.journey-action.primary{background:var(--journey-accent);color:#fff;border-color:var(--journey-accent)}
+.journey-tool-hint{color:#8191a5;font-size:11px;font-weight:600}
+.phase-nav{display:flex;gap:7px;overflow-x:auto;align-items:center;padding:0 0 11px;margin:0 0 10px;scrollbar-width:thin}
+.phase-nav button{border:1px solid #dbe5ef;background:#fff;border-radius:999px;padding:7px 10px;font-size:10px;font-weight:750;color:#526781;white-space:nowrap;cursor:pointer}
+.phase-nav button:hover{color:var(--journey-accent);border-color:var(--journey-border);background:var(--journey-soft)}
+.phase-nav button em{font-style:normal;color:#9aabbc;margin-left:4px}
+.flow.decision-focus .flow-card:not(.decision-card){opacity:.37}
+.flow.decision-focus .flow-card:not(.decision-card):hover{opacity:1}
+.flow.decision-focus .phase-head{opacity:1}
+/* A modal continua acima de todos os controles do fluxo. */
+.modal-backdrop{z-index:1000}.modal{max-height:96dvh}
+@media(max-width:760px){.page{padding:14px 12px 45px}.hero{padding:18px 15px}.hero h1{font-size:22px}.route-summary{padding:11px}.flow-phase{margin-left:10px;padding-left:17px}.phase-head{padding:8px 3px 10px}.flow-item::before{left:-25px}.flow-item:not(:last-child)::after{left:-27px}.preview-surface{padding:11px;grid-template-columns:39px minmax(0,1fr) auto;gap:8px}.preview-surface .num{width:33px;height:33px}.kind{padding:5px 6px}.route-tabs{grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}.journey-tools{align-items:start}.journey-tool-hint{display:none}}
+@media(max-width:480px){.header-in{padding:12px}.brand strong{font-size:14px}.brand span{font-size:9px}.badge{font-size:8px;max-width:115px}.phase-copy strong{font-size:12px}.phase-copy small{font-size:9px}.phase-toggle{padding:6px 8px;font-size:10px}.route-tabs{grid-template-columns:1fr}.copy strong{font-size:12px}.copy small{font-size:10px}.flow-item{padding-bottom:21px}.hero .legend span{font-size:9px}.route-chip{font-size:10px}.flow{max-width:100%}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important}}
+
 </style>
 </head>
 <body>
@@ -51,7 +143,17 @@
   </div>
 
   <div class="route-summary" id="routeSummary"></div>
-  <section class="flow" id="flow"></section>
+  <div class="journey-tools" role="toolbar" aria-label="Controles de leitura da jornada">
+  <div class="journey-actions">
+    <button class="journey-action primary" data-v3-action="reset" type="button">↺ Caminho padrão</button>
+    <button class="journey-action" data-v3-action="expand" type="button">Expandir fases</button>
+    <button class="journey-action" data-v3-action="collapse" type="button">Recolher fases</button>
+    <button class="journey-action" data-v3-action="focus" type="button" aria-pressed="false">Destacar decisões</button>
+  </div>
+  <span class="journey-tool-hint" id="v3PathCounter" aria-live="polite"></span>
+</div>
+<nav id="v3PhaseNav" class="phase-nav" aria-label="Ir para fase do caminho selecionado"></nav>
+<section class="flow" id="flow"></section>
 </main>
 
 <div class="modal-backdrop" id="modalBackdrop" aria-hidden="true">
@@ -138,7 +240,7 @@ function renderFlow() {
     }
 
     blocks.push(`
-      <div class="flow-item">
+      <div class="flow-item" data-flow-node="${esc(id)}">
         <div class="flow-card ${isDecision ? "decision-card" : ""} ${node.state ? "state-card" : ""} ${isCreated ? "created-card" : ""} ${isPending ? "pending-card" : ""}">
           <${surfaceTag} class="preview-surface"${screenAttr}>
             <span class="num">${String(index).padStart(2,"0")}</span>
@@ -158,7 +260,102 @@ function renderFlow() {
   routeSummary.textContent = summary.length
     ? "Caminho selecionado: " + summary.join("  ·  ")
     : "Fluxo linear até o primeiro ponto de decisão.";
+  v3BuildPhases(summary);
 }
+
+
+/* ================================================================
+ V3 · CAMADA VISUAL DE LEITURA (sem modificar FLOW_NODES nem SCREENS)
+  - Fases calculadas a partir dos IDs de nós existentes
+  - Colapsagem preserva o caminho e as decisões
+  - Índice e breadcrumbs derivados da rota realmente selecionada
+=============================================================== */
+const V3_PHASES=[{"id":"acesso","title":"Acesso e autorização","subtitle":"Papel administrativo","nodes":["splash","welcome","login","admin_role_check","profiles_gate","profile_selector","admin_access_denied"]},{"id":"pendencia","title":"Política de entrada","subtitle":"Regra ainda pendente","nodes":["admin_policy_note"]},{"id":"home","title":"Painel administrativo","subtitle":"Módulos do Admin","nodes":["admin_home"]},{"id":"perfis","title":"Perfis e usuários","subtitle":"Identidades e ações","nodes":["profiles","profile_detail","profile_view_state","profile_action_pending"]},{"id":"oab","title":"Validação da OAB","subtitle":"Análises e decisões","nodes":["oab_queue","oab_detail","oab_decision_pending","oab_back_state"]},{"id":"moderacao","title":"Denúncias e moderação","subtitle":"Ocorrências e medidas","nodes":["reports","report_detail","moderation_pending","reports_back_state"]},{"id":"assinatura","title":"Assinaturas","subtitle":"Consulta financeira","nodes":["subscriptions","subscription_detail","subscription_view_state","payment_action_pending"]},{"id":"auditoria","title":"Logs e auditoria","subtitle":"Rastreabilidade","nodes":["logs","log_detail"]},{"id":"governanca","title":"Governança e permissões","subtitle":"Regras administrativas","nodes":["admins","admin_detail","admin_permissions_view","admin_governance_pending","settings"]},{"id":"sistema","title":"Ações gerais","subtitle":"Notificações e sessão","nodes":["notifications","logout"]}];
+const V3_PHASE_BY_NODE={};
+for(const phase of V3_PHASES) for(const id of phase.nodes) V3_PHASE_BY_NODE[id]=phase.id;
+const V3_COLLAPSED=new Set();
+let v3DecisionFocus=false;
+function v3Escape(text){return esc(String(text??''));}
+function v3BuildPhases(summary){
+  const items=[...flowEl.querySelectorAll(':scope > .flow-item')];
+  const sections=[];
+  let current=null;
+  for(const item of items){
+    const id=item.dataset.flowNode||'';
+    const phaseId=V3_PHASE_BY_NODE[id]||'sistema';
+    if(!current||current.id!==phaseId){
+      current={id:phaseId,items:[]};sections.push(current);
+    }
+    current.items.push(item);
+  }
+  const fragment=document.createDocumentFragment();
+  const nav=document.getElementById('v3PhaseNav');
+  nav.replaceChildren();
+  sections.forEach((section,ix)=>{
+    const p=V3_PHASES.find(p=>p.id===section.id)||{id:section.id,title:'Outras etapas',subtitle:''};
+    const wrapper=document.createElement('section');
+    const collapsed=V3_COLLAPSED.has(p.id);
+    wrapper.className='flow-phase'+(collapsed?' is-collapsed':'');
+    wrapper.dataset.phase=p.id;
+    wrapper.id='v3-fase-'+ix;
+    wrapper.innerHTML='<div class="phase-head"><div class="phase-heading"><span class="phase-marker">'+String(ix+1).padStart(2,'0')+'</span><span class="phase-copy"><strong>'+v3Escape(p.title)+'</strong><small>'+v3Escape(p.subtitle)+' · '+section.items.length+' '+(section.items.length===1?'etapa':'etapas')+'</small></span></div><button class="phase-toggle" type="button" data-v3-collapse="'+v3Escape(p.id)+'" aria-expanded="'+String(!collapsed)+'">'+(collapsed?'Expandir':'Recolher')+'</button></div><div class="phase-stream"></div><div class="phase-collapsed">'+section.items.length+' '+(section.items.length===1?'etapa recolhida':'etapas recolhidas')+' · O caminho continua abaixo.</div>';
+    const stream=wrapper.querySelector('.phase-stream');
+    section.items.forEach(item=>stream.appendChild(item));
+    fragment.appendChild(wrapper);
+    const shortcut=document.createElement('button');
+    shortcut.type='button';shortcut.dataset.v3Jump=wrapper.id;
+    shortcut.innerHTML=v3Escape(p.title)+' <em>'+section.items.length+'</em>';
+    nav.appendChild(shortcut);
+  });
+  flowEl.replaceChildren(fragment);
+  flowEl.classList.toggle('decision-focus',v3DecisionFocus);
+  const summaryEl=document.getElementById('routeSummary');
+  summaryEl.innerHTML='<span class="route-heading">Caminho selecionado · '+summary.length+' '+(summary.length===1?'decisão':'decisões')+'</span><div class="route-chain">'+(summary.length?summary.map((x,i)=> (i?'<span class="route-arrow">›</span>':'')+'<span class="route-chip">'+v3Escape(x)+'</span>').join(''):'<span class="route-chip">Sequência linear, sem bifurcações</span>')+'</div>';
+  const counter=document.getElementById('v3PathCounter');
+  if(counter)counter.textContent=items.length+' etapas visíveis na rota';
+  const focus=document.querySelector('[data-v3-action="focus"]');
+  if(focus){focus.classList.toggle('active',v3DecisionFocus);focus.setAttribute('aria-pressed',String(v3DecisionFocus));}
+}
+function v3ExpandAll(flag){
+  if(flag)V3_COLLAPSED.clear();
+  else for(const el of flowEl.querySelectorAll('.flow-phase'))V3_COLLAPSED.add(el.dataset.phase);
+  for(const el of flowEl.querySelectorAll('.flow-phase')){
+    const isCollapsed=V3_COLLAPSED.has(el.dataset.phase);
+    el.classList.toggle('is-collapsed',isCollapsed);
+    const button=el.querySelector('.phase-toggle');
+    button.textContent=isCollapsed?'Expandir':'Recolher';button.setAttribute('aria-expanded',String(!isCollapsed));
+  }
+}
+document.addEventListener('click',event=>{
+  const collapse=event.target.closest('[data-v3-collapse]');
+  if(collapse){
+    const id=collapse.dataset.v3Collapse;
+    V3_COLLAPSED.has(id)?V3_COLLAPSED.delete(id):V3_COLLAPSED.add(id);
+    const section=collapse.closest('.flow-phase');
+    if(section){const isCollapsed=V3_COLLAPSED.has(id);section.classList.toggle('is-collapsed',isCollapsed);collapse.textContent=isCollapsed?'Expandir':'Recolher';collapse.setAttribute('aria-expanded',String(!isCollapsed));}
+    return;
+  }
+  const jump=event.target.closest('[data-v3-jump]');
+  if(jump){
+    const target=document.getElementById(jump.dataset.v3Jump);
+    if(target)target.scrollIntoView({behavior:'smooth',block:'start'});
+    return;
+  }
+  const action=event.target.closest('[data-v3-action]');
+  if(!action)return;
+  switch(action.dataset.v3Action){
+    case 'reset':
+      Object.keys(selections).forEach(k=>delete selections[k]);
+      Object.assign(selections,DEFAULT_SELECTIONS);
+      V3_COLLAPSED.clear();v3DecisionFocus=false;renderFlow();break;
+    case 'expand':v3ExpandAll(true);break;
+    case 'collapse':v3ExpandAll(false);break;
+    case 'focus':
+      v3DecisionFocus=!v3DecisionFocus;
+      flowEl.classList.toggle('decision-focus',v3DecisionFocus);
+      action.classList.toggle('active',v3DecisionFocus);action.setAttribute('aria-pressed',String(v3DecisionFocus));break;
+  }
+});
 
 const backdrop = document.getElementById("modalBackdrop");
 const frame = document.getElementById("previewFrame");

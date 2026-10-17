@@ -1,5 +1,16 @@
 # AGENTS.md — Advogado Já · Laboratório Funcional
 
+## Atualização de decisões — 16/10/2026 (prevalece sobre orientações antigas)
+
+O usuário definiu três jornadas principais e sua ordem de trabalho: **Cliente → Advogado → Administrador**.
+**Estudante não é conta nem jornada principal separada**: o Cliente pode contratar um plano de acesso à Área Estudante, mantendo a mesma identidade.
+A proposta de Home própria da Área Estudante dentro da mesma conta está **em avaliação** e deve passar pela entrevista antes de ser marcada como aprovada.
+
+**Planejamento vivo:** `planejamento/planejamento.json` contém o roteiro de execução; `planejamento/registros.csv` contém decisões, perguntas, propostas, riscos e ideias com IDs estáveis. Os dois são carregados automaticamente pelo `planejamento/index.html` e não podem ser substituídos por memória conversacional imprecisa.
+**Precedência:** decisão explícita do usuário > registro confirmado com origem > proposta/legado. Se uma regra abaixo contradiz esta atualização, tratá-la como legado a revisar, não como regra vigente.
+
+Para atualizar o conteúdo da aba: editar ou substituir o JSON/CSV e efetuar commit. Edições feitas no navegador ficam somente em memória até exportação e substituição no repositório. Não marcar registros como confirmados sem aprovação expressa.
+
 ## Missão
 
 Este repositório existe para **fechar a especificação funcional do Advogado Já antes da construção final das telas e do aplicativo**.
@@ -48,7 +59,7 @@ Regras já fechadas:
 
 - uma pessoa = uma identidade;
 - a identidade pode acumular perfis;
-- Cliente, Advogado e Estudante são perfis públicos;
+- Cliente e Advogado são experiências principais; Estudante é acesso adicional por assinatura do Cliente;
 - Administrador é papel interno, concedido a conta existente;
 - o primeiro Administrador nasce por root/bootstrap;
 - com 2+ perfis utilizáveis, o seletor de perfil é exibido;
@@ -57,8 +68,8 @@ Regras já fechadas:
 - após onboarding, o Advogado entra na mesma Home Profissional;
 - OAB muda capabilities, menu, main e ações, mas não cria outra Home;
 - falha técnica de OAB é estado desconhecido e deve ser fail-closed para operações protegidas;
-- dados acadêmicos do Estudante são opcionais, sem comprovação obrigatória;
-- Advogado e Estudante são perfis pagantes;
+- dados acadêmicos do plano Estudante devem ser reavaliados durante a entrevista; não presumir exigência nem obrigação de comprovação;
+- planos profissionais e o plano Estudante pertencente ao Cliente precisam de regras de assinatura documentadas;
 - assinatura é contratada/gerida no Advogado Já;
 - DMembers não deve ser fonte de verdade do plano; acesso deve ser derivado de estado de assinatura/entitlements do backend.
 
@@ -195,7 +206,7 @@ Não é necessário "responder todas as perguntas" por si só.
 
 A fase termina quando:
 
-- as quatro jornadas podem ser percorridas ponta a ponta;
+- as três jornadas principais podem ser percorridas ponta a ponta, incluindo acesso opcional à Área Estudante pelo Cliente;
 - o inventário não possui buracos funcionais críticos;
 - cada ação relevante tem destino conhecido;
 - telas, componentes, ações e estados estão corretamente separados;

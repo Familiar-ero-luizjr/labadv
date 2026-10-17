@@ -1,96 +1,41 @@
-# Advogado Já — Laboratório Funcional
+# Advogado Já — Aba Planejamento e Memória V1
 
-Este repositório é um **laboratório de definição do produto**, preparado para ser publicado diretamente no GitHub Pages.
+Este pacote é um **overlay incremental** do `labadv.zip`. Não substitui nem inclui os outros módulos pesados do laboratório.
 
-O objetivo desta fase **não é construir o aplicativo final**. O objetivo é fechar, de forma rastreável, quais telas, ações, estados, componentes, regras e dados realmente precisam existir antes da implementação.
+## Como instalar no laboratório
 
-## Como usar
+1. Extraia o ZIP deste pacote.
+2. Copie a pasta `planejamento/` para a raiz do laboratório (ao lado de `prototipo/`, `jornadas/` e `referencias/`).
+3. Substitua o `index.html` da raiz do laboratório pelo `index.html` deste pacote. É o índice original com **uma única aba Planejamento logo após Mapa integrado**.
+4. Recomenda-se atualizar também `AGENTS.md` pelo arquivo deste pacote: corrigimos a antiga referência a quatro jornadas e inserimos as decisões mais recentes.
+5. Copie `ABRIR_LOCAL.cmd` para a **raiz do laboratório**, ao lado do `index.html`. Execute-o no Windows ou use `python -m http.server 8000` nessa raiz. Acesse `http://localhost:8000/index.html#planejamento`. GitHub Pages também pode servir esse diretório.
 
-Abra `index.html` no GitHub Pages. A partir do hub, trabalhe em três frentes que devem permanecer coerentes entre si:
+## Fonte dos dados
 
-1. **Jornadas** — mostram a experiência ponta a ponta de Cliente, Advogado, Estudante de Direito e Administrador.
-2. **Entrevista funcional** — registra decisões já fechadas e perguntas pendentes. As respostas ficam salvas no navegador e podem ser exportadas/importadas em JSON.
-3. **Modelo de banco** — verifica quais entidades e relacionamentos são necessários para sustentar as telas e estados definidos.
+- `planejamento/planejamento.json`: **roteiro estruturado** (3 jornadas, 5 fases, 30 etapas, estados e regras). Mude-o diretamente no repositório ou importe/exporte pela página.
+- `planejamento/registros.csv`: **memória de decisões** (registros, perguntas, riscos e ideias). UTF-8 com BOM, separador `;`, compatible com Excel pt-BR. Mantém IDs, status, origem, jornada e links de etapas.
+- `planejamento/index.html`: interface; `estilos.css` e `app.js`: apenas apresentação e lógica da aba.
 
-O arquivo em `referencias/` é uma visão integrada auxiliar. Ele não substitui as quatro jornadas individuais.
+**Não há duplicação de dados entre JSON e CSV.** O JSON controla a sequência; o CSV controla o que foi descoberto/decidido. A página lê os dois a cada recarregamento. `fetch(...,{cache:'no-store'})` reduz o risco de leitura de versões antigas, dependendo das configurações de cache do servidor/CDN.
 
-## Estrutura
+## Como atualizar usando o ChatGPT e o GitHub
 
-```text
-/
-├── index.html
-├── README.md
-├── AGENTS.md
-├── jornadas/
-│   ├── cliente_maria.html
-│   ├── advogado_joao.html
-│   ├── estudante_ana.html
-│   └── administrador.html
-├── definicao/
-│   └── entrevista_funcional_4_jornadas.html
-├── modelos/
-│   └── modelagem_banco_todas_telas.html
-└── referencias/
-    └── mapa_aplicacao_todas_jornadas.html
-```
+- Pode pedir ao ChatGPT para atualizar `planejamento.json` ou `registros.csv`, fornecendo a versão atual de ambos (ou acesso ao repositório). O arquivo deve ser validado antes da substituição.
+- No GitHub, substitua o arquivo correspondente e faça commit. Ao atualizar a página publicada, verá os novos dados.
+- A edição na interface é **em memória**: clique em **Exportar JSON** ao mudar estados das etapas, e em **Exportar CSV** após adicionar/editar registros. Os exports **não gravam nem criam commit automaticamente**.
+- **Snapshot completo** exporta um JSON de backup e intercâmbio com ambos os conjuntos. Não é o arquivo `planejamento.json` da aplicação; importe o snapshot e depois exporte separadamente os dois arquivos se quiser restaurá-lo.
 
-## Ciclo de trabalho
+## Segurança e consistência
 
-Quando surgir uma dúvida, mudança ou tela nova:
+- `Confirmado` exige decisão expressa do usuário. Tudo que foi apenas sugerido fica `Proposto` ou `A analisar`.
+- ID de registro `REG-0001` etc. nunca deve ser reutilizado. Não excluir: usar status `Descartado`.
+- Não gravar credenciais, tokens, dados pessoais reais nem segredos do Firebase ou Google em JSON/CSV públicos.
+- Valida campos obrigatórios, unicidade dos IDs e referências de etapas antes da importação.
+- Se abrir com `file://`, a leitura automática pode falhar por política do navegador: use HTTP local ou importe os dois arquivos manualmente.
+- Para automação de commits, seria necessária uma integração autenticada ao GitHub em vez de somente uma página HTML estática.
 
-**Jornada → Pergunta/decisão → Dados necessários → Revisão cruzada → Atualização dos artefatos afetados.**
+## Arquivos adicionais
 
-Uma resposta na entrevista não deve ficar isolada. Se ela alterar o comportamento de uma tela, a jornada correspondente deve ser revisada. Se alterar persistência, estado, histórico ou vínculo entre entidades, o modelo do banco também deve ser revisado.
-
-Da mesma forma, uma nova tabela ou campo não deve ser criado sem uma necessidade funcional identificável.
-
-## Estado atual do produto
-
-As quatro experiências consideradas são:
-
-- **Cliente**
-- **Advogado**
-- **Estudante de Direito**
-- **Administrador**
-
-Regras estruturais já consolidadas incluem:
-
-- Uma pessoa possui uma única identidade e pode acumular perfis.
-- Cliente, Advogado e Estudante de Direito são perfis públicos; Administrador é um papel interno.
-- Com dois ou mais perfis utilizáveis, há seleção de perfil.
-- Escritório é subfluxo do Advogado, não uma persona independente.
-- Validação da OAB é posterior ao onboarding do Advogado.
-- O Advogado possui uma única Home; o estado da OAB altera capabilities.
-- Dados acadêmicos do Estudante são opcionais e não exigem comprovação.
-- Advogado e Estudante de Direito são os perfis pagantes.
-- O consumo de cursos pode ocorrer no DMembers, mas acesso deve derivar da identidade/assinatura/entitlements controlados pelo backend do Advogado Já.
-
-## GitHub Pages
-
-Este pacote é estático. Para publicar:
-
-1. Envie o conteúdo desta pasta para a raiz do repositório.
-2. No GitHub, abra **Settings → Pages**.
-3. Em **Build and deployment**, escolha **Deploy from a branch**.
-4. Selecione a branch desejada e a pasta `/ (root)`.
-5. Salve.
-
-Não coloque chaves de API, senhas, tokens, segredos, credenciais ou dados pessoais reais neste repositório público.
-
-## Autoridade dos artefatos
-
-Nenhum HTML é automaticamente “verdade” apenas porque existe. Ele representa o estado atual da especificação.
-
-A autoridade funcional é:
-
-1. decisão explícita mais recente do produto;
-2. decisão consolidada e não conflitante na entrevista;
-3. jornadas atualizadas;
-4. modelo de banco;
-5. referências e materiais legados.
-
-Conflitos devem ser expostos e resolvidos; nunca corrigidos silenciosamente por suposição.
-
-## Protótipo navegável unificado (4 jornadas)
-
-Na aba **Protótipo** do `index.html`, é possível escolher Cliente, Advogado, Estudante ou Administrador e navegar pelos caminhos atualmente documentados. Consulte `prototipo/README.md` para execução local, limites de interatividade e manutenção dos snapshots.
+- `docs/INTEGRACAO.md`: orientações detalhadas de integração.
+- `planejamento/AGENTS.md`: contrato local para mudanças nesta aba.
+- `validar_dados.py`: valida JSON, CSV, IDs e referências sem dependências externas.
