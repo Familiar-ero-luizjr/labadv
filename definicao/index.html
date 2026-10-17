@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#10233f">
+  <meta name="description" content="Entrevista funcional dinâmica do Advogado Já — perguntas e respostas separadas em JSON.">
+  <title>Advogado Já · Entrevista dinâmica</title>
+  <link rel="stylesheet" href="estilos.css">
+  <script src="entrevista.js" defer></script>
+</head>
+<body>
+<div class="shell">
+  <header class="header">
+    <div class="brand"><span class="brand-icon" aria-hidden="true">AJ</span><div><strong>ADVOGADO JÁ</strong><small>Laboratório funcional · Entrevista</small></div></div>
+    <div class="header-side"><span class="live-chip"><span class="pulse"></span>Arquivos externos JSON</span><a class="back-link" href="../index.html#entrevista" title="Retornar ao índice do laboratório">Voltar ao laboratório ↗</a></div>
+  </header>
+  <div class="intro">
+    <div><p class="eyebrow">Especificação funcional</p><h1>Entrevista dinâmica</h1><p>As áreas, subáreas e perguntas são definidas pelos JSONs. As respostas históricas não equivalem a decisões aprovadas.</p></div>
+    <div class="metrics" aria-label="Indicadores da entrevista">
+      <div><b id="areasTotal">—</b><span>Áreas</span></div>
+      <div><b id="questionsTotal">—</b><span>Perguntas</span></div>
+      <div><b id="answersTotal">—</b><span>Respondidas</span></div>
+      <div><b id="reviewsTotal">—</b><span>A revisar</span></div>
+    </div>
+  </div>
+  <section class="toolbar" aria-label="Ferramentas">
+    <label class="search-wrap"><span aria-hidden="true">⌕</span><input type="search" id="search" placeholder="Buscar ID, conteúdo, seção ou alternativa…" aria-label="Buscar perguntas"></label>
+    <label class="filter-wrap">Mostrar <select id="filter"><option value="todas">Todas</option><option value="pendentes">Sem resposta</option><option value="respondidas">Respondidas</option><option value="revisar">A revisar</option><option value="confirmadas">Confirmadas</option></select></label>
+    <div class="tool-actions">
+      <button class="btn" id="addArea" type="button" title="Adicionar uma área na estrutura em memória">+ Área</button>
+      <button class="btn" id="addQuestion" type="button" title="Adicionar uma pergunta na seleção atual">+ Pergunta</button>
+      <button class="btn" id="import" type="button">↑ Importar JSON</button>
+      <input type="file" id="importFile" accept=".json,application/json" multiple hidden>
+      <details class="export-menu"><summary class="btn primary">↓ Exportar <span aria-hidden="true">⌄</span></summary><div class="export-popover">
+        <button type="button" data-export="estrutura">estrutura.json</button>
+        <button type="button" data-export="perguntas">perguntas.json</button>
+        <button type="button" data-export="respostas">respostas.json</button>
+        <button type="button" data-export="snapshot">Snapshot completo</button>
+      </div></details>
+    </div>
+  </section>
+  <section class="main-areas" id="mainAreas" aria-label="Áreas principais geradas pelo JSON"><span class="loading">Carregando áreas…</span></section>
+  <div class="columns">
+    <aside class="sidebar" aria-label="Subáreas da entrevista">
+      <div class="sidebar-head"><div><span class="eyebrow">Navegação</span><h2 id="areaName">Seções</h2></div><button class="icon-button" id="allSections" title="Mostrar toda a área" type="button">⊞</button></div>
+      <nav id="tree" class="tree" aria-label="Árvore de seções"></nav>
+      <div class="sidebar-foot"><strong>Fonte de verdade</strong><p>Atualize <code>data/*.json</code> no repositório para publicar. Edições aqui precisam ser exportadas.</p></div>
+    </aside>
+    <main id="workspace" class="workspace">
+      <div class="workspace-head"><div><p class="breadcrumb" id="breadcrumb">Entrevista</p><h2 id="currentTitle">Preparando entrevista…</h2><p id="currentDesc" class="section-desc"></p></div><div class="head-tools"><span class="counter" id="visibleCounter"></span><button class="btn small" id="expandAll" type="button">Expandir</button><button class="btn small" id="collapseAll" type="button">Recolher</button></div></div>
+      <div class="notice" id="notice"><strong>As respostas antigas foram preservadas.</strong> Verifique as mudanças recentes, principalmente a passagem de Estudante para plano/área vinculada ao Cliente.</div>
+      <div id="draftNotice" class="draft-notice" hidden><span>Existe um rascunho local deste navegador, não publicado no repositório.</span><button class="btn small" id="restoreDraft">Restaurar rascunho</button><button class="btn small" id="ignoreDraft">Ignorar</button></div>
+      <div class="status-line" id="status" role="status" aria-live="polite"></div>
+      <div id="questions" class="question-groups"><div class="loading">Lendo a entrevista…</div></div>
+    </main>
+  </div>
+  <footer class="footer">Estrutura dinâmica por <code>id</code> e <code>parent_id</code> · IDs originais das perguntas preservados · Nada é salvo no GitHub automaticamente.</footer>
+</div>
+</body>
+</html>

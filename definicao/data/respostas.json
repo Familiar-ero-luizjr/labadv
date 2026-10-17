@@ -1,0 +1,527 @@
+{
+  "schema": "advogadoja.entrevista.respostas.v1",
+  "versao": 1,
+  "descricao": "Respostas históricas preservadas; situação historica ou revisar não significa decisão atual confirmada.",
+  "respostas": {
+    "R001": {
+      "selected": "A",
+      "otherText": "",
+      "note": "Uma única identidade; Cliente, Advogado, Estudante de Direito e Administrador podem coexistir como perfis/papéis.",
+      "answered": true,
+      "situacao": "revisar",
+      "origem": "Entrevista original do labadv (não implica aprovação atual)"
+    },
+    "R002": {
+      "selected": "A",
+      "otherText": "",
+      "note": "O cadastro inicial cria um perfil público. Administrador não é uma opção pública.",
+      "answered": true,
+      "situacao": "revisar",
+      "origem": "Entrevista original do labadv (não implica aprovação atual)"
+    },
+    "R003": {
+      "selected": "A",
+      "otherText": "",
+      "note": "Não. Identificação, contato, endereço e segurança pertencem ao cadastro comum; o perfil define o onboarding específico.",
+      "answered": true,
+      "situacao": "revisar",
+      "origem": "Entrevista original do labadv (não implica aprovação atual)"
+    },
+    "R004": {
+      "selected": "A",
+      "otherText": "",
+      "note": "Cadastro concluído → Login.",
+      "answered": true,
+      "situacao": "historica",
+      "origem": "Entrevista original do labadv (não implica aprovação atual)"
+    },
+    "R005": {
+      "selected": "A",
+      "otherText": "",
+      "note": "Pode adicionar outro perfil dentro da mesma conta e então passa pelo onboarding desse perfil.",
+      "answered": true,
+      "situacao": "historica",
+      "origem": "Entrevista original do labadv (não implica aprovação atual)"
+    },
+    "R006": {
+      "selected": "A",
+      "otherText": "",
+      "note": "Não se cria nova identidade. O usuário deve entrar na conta existente e adicionar o outro perfil por dentro.",
+      "answered": true,
+      "situacao": "historica",
+      "origem": "Entrevista original do labadv (não implica aprovação atual)"
+    },
+    "R007": {
+      "selected": "A",
+      "otherText": "",
+      "note": "CPF é a chave principal de unicidade da pessoa.",
+      "answered": true,
+      "situacao": "historica",
+      "origem": "Entrevista original do labadv (não implica aprovação atual)"
+    },
+    "R008": {
+      "selected": "A",
+      "otherText": "",
+      "note": "CPF, e-mail e telefone não podem se repetir entre pessoas diferentes.",
+      "answered": true,
+      "situacao": "historica",
+      "origem": "Entrevista original do labadv (não implica aprovação atual)"
+    },
+    "R009": {
+      "selected": "B",
+      "otherText": "",
+      "note": "A criação da conta não depende de confirmação prévia de e-mail ou telefone.",
+      "answered": true,
+      "situacao": "historica",
+      "origem": "Entrevista original do labadv (não implica aprovação atual)"
+    },
+    "R010": {
+      "selected": "A",
+      "otherText": "",
+      "note": "Login somente com e-mail + senha.",
+      "answered": true,
+      "situacao": "historica",
+      "origem": "Entrevista original do labadv (não implica aprovação atual)"
+    },
+    "R011": {
+      "selected": "C",
+      "otherText": "",
+      "note": "O usuário escolhe recuperar por e-mail ou telefone cadastrado.",
+      "answered": true,
+      "situacao": "historica",
+      "origem": "Entrevista original do labadv (não implica aprovação atual)"
+    },
+    "R012": {
+      "selected": "A",
+      "otherText": "",
+      "note": "O novo e-mail/telefone é confirmado antes de substituir o contato atual.",
+      "answered": true,
+      "situacao": "historica",
+      "origem": "Entrevista original do labadv (não implica aprovação atual)"
+    },
+    "R013": {
+      "selected": "B",
+      "otherText": "",
+      "note": "Não exige senha atual; exige a confirmação do novo contato.",
+      "answered": true,
+      "situacao": "historica",
+      "origem": "Entrevista original do labadv (não implica aprovação atual)"
+    },
+    "R014": {
+      "selected": "B",
+      "otherText": "",
+      "note": "Estando autenticado, o usuário pode definir e confirmar uma nova senha sem informar a anterior.",
+      "answered": true,
+      "situacao": "historica",
+      "origem": "Entrevista original do labadv (não implica aprovação atual)"
+    },
+    "R015": {
+      "selected": "A",
+      "otherText": "",
+      "note": "Administrador não é perfil selecionável no cadastro público.",
+      "answered": true,
+      "situacao": "historica",
+      "origem": "Entrevista original do labadv (não implica aprovação atual)"
+    },
+    "R016": {
+      "selected": "A",
+      "otherText": "",
+      "note": "Sim. Os quatro papéis podem coexistir na mesma identidade.",
+      "answered": true,
+      "situacao": "revisar",
+      "origem": "Entrevista original do labadv (não implica aprovação atual)"
+    },
+    "R017": {
+      "selected": "A",
+      "otherText": "",
+      "note": "Um acesso root/bootstrap promove a primeira conta administrativa; depois pode ser desativado/removido.",
+      "answered": true,
+      "situacao": "historica",
+      "origem": "Entrevista original do labadv (não implica aprovação atual)"
+    },
+    "R018": {
+      "selected": "A",
+      "otherText": "",
+      "note": "Com um perfil, não há seletor.",
+      "answered": true,
+      "situacao": "historica",
+      "origem": "Entrevista original do labadv (não implica aprovação atual)"
+    },
+    "R019": {
+      "selected": "A",
+      "otherText": "",
+      "note": "Com 2+ perfis, o usuário escolhe Cliente, Advogado, Estudante de Direito ou Administrador, conforme os papéis disponíveis.",
+      "answered": true,
+      "situacao": "revisar",
+      "origem": "Entrevista original do labadv (não implica aprovação atual)"
+    },
+    "R020": {
+      "selected": "B",
+      "otherText": "",
+      "note": "A seleção reaparece a cada nova abertura do aplicativo quando existem dois ou mais perfis.",
+      "answered": true,
+      "situacao": "revisar",
+      "origem": "Entrevista original do labadv (não implica aprovação atual)"
+    },
+    "R021": {
+      "selected": "A",
+      "otherText": "",
+      "note": "Trocar perfil preserva a autenticação; 'Trocar perfil' e 'Sair' são ações diferentes.",
+      "answered": true,
+      "situacao": "historica",
+      "origem": "Entrevista original do labadv (não implica aprovação atual)"
+    },
+    "R022": {
+      "selected": "B",
+      "otherText": "",
+      "note": "Onboarding é uma trava por perfil. Outro perfil já concluído continua utilizável.",
+      "answered": true,
+      "situacao": "historica",
+      "origem": "Entrevista original do labadv (não implica aprovação atual)"
+    },
+    "R023": {
+      "selected": "A",
+      "otherText": "",
+      "note": "Se o usuário abandonar o onboarding, o perfil continua na conta e pode ser selecionado novamente.",
+      "answered": true,
+      "situacao": "historica",
+      "origem": "Entrevista original do labadv (não implica aprovação atual)"
+    },
+    "R024": {
+      "selected": "B",
+      "otherText": "",
+      "note": "A Home do perfil só é liberada após o onboarding obrigatório daquele perfil.",
+      "answered": true,
+      "situacao": "historica",
+      "origem": "Entrevista original do labadv (não implica aprovação atual)"
+    },
+    "R025": {
+      "selected": "B",
+      "otherText": "",
+      "note": "A validação da OAB é separada do cadastro e do onboarding.",
+      "answered": true,
+      "situacao": "historica",
+      "origem": "Entrevista original do labadv (não implica aprovação atual)"
+    },
+    "R026": {
+      "selected": "A",
+      "otherText": "",
+      "note": "O advogado chega à Home Profissional e as capabilities restringem o que pode fazer.",
+      "answered": true,
+      "situacao": "historica",
+      "origem": "Entrevista original do labadv (não implica aprovação atual)"
+    },
+    "R027": {
+      "selected": "A",
+      "otherText": "",
+      "note": "screenKey: advogado.home_advogado; rota: /professional/home. O estado altera Menu/Main/capabilities, não a identidade da tela.",
+      "answered": true,
+      "situacao": "historica",
+      "origem": "Entrevista original do labadv (não implica aprovação atual)"
+    },
+    "R028": {
+      "selected": "B",
+      "otherText": "",
+      "note": "Excluir conta exige confirmação reforçada.",
+      "answered": true,
+      "situacao": "historica",
+      "origem": "Entrevista original do labadv (não implica aprovação atual)"
+    },
+    "R029": {
+      "selected": "A",
+      "otherText": "",
+      "note": "O usuário escolhe entre exclusão imediata/definitiva ou desativação temporária.",
+      "answered": true,
+      "situacao": "historica",
+      "origem": "Entrevista original do labadv (não implica aprovação atual)"
+    },
+    "R030": {
+      "selected": "A",
+      "otherText": "",
+      "note": "Um perfil pode ser removido individualmente e os demais permanecem.",
+      "answered": true,
+      "situacao": "historica",
+      "origem": "Entrevista original do labadv (não implica aprovação atual)"
+    },
+    "R031": {
+      "selected": "A",
+      "otherText": "",
+      "note": "O perfil foi definido como Estudante de Direito.",
+      "answered": true,
+      "situacao": "revisar",
+      "origem": "Entrevista original do labadv (não implica aprovação atual)"
+    },
+    "R032": {
+      "selected": "B",
+      "otherText": "",
+      "note": "O perfil também atende quem apenas quer aprender Direito e pode não estar matriculado.",
+      "answered": true,
+      "situacao": "revisar",
+      "origem": "Entrevista original do labadv (não implica aprovação atual)"
+    },
+    "R033": {
+      "selected": "B",
+      "otherText": "",
+      "note": "Instituição, curso, período e situação acadêmica são opcionais e não geram bloqueio.",
+      "answered": true,
+      "situacao": "revisar",
+      "origem": "Entrevista original do labadv (não implica aprovação atual)"
+    },
+    "R034": {
+      "selected": "B",
+      "otherText": "",
+      "note": "Não há comprovante ou validação acadêmica obrigatória.",
+      "answered": true,
+      "situacao": "revisar",
+      "origem": "Entrevista original do labadv (não implica aprovação atual)"
+    },
+    "R035": {
+      "selected": "A",
+      "otherText": "",
+      "note": "Foi adotada a mesma estrutura-base: cadastro comum, login, onboarding e Home.",
+      "answered": true,
+      "situacao": "revisar",
+      "origem": "Entrevista original do labadv (não implica aprovação atual)"
+    },
+    "R036": {
+      "selected": "A",
+      "otherText": "",
+      "note": "A assinatura é contratada dentro do Advogado Já, no mesmo princípio do Advogado.",
+      "answered": true,
+      "situacao": "revisar",
+      "origem": "Entrevista original do labadv (não implica aprovação atual)"
+    },
+    "R037": {
+      "selected": "A",
+      "otherText": "",
+      "note": "Advogado e Estudante de Direito são os dois perfis pagantes definidos.",
+      "answered": true,
+      "situacao": "revisar",
+      "origem": "Entrevista original do labadv (não implica aprovação atual)"
+    },
+    "Q0012": {
+      "selected": "A",
+      "otherText": "",
+      "note": "Sim — Cliente pode adicionar Advogado.",
+      "answered": true,
+      "situacao": "historica",
+      "origem": "Entrevista original do labadv (não implica aprovação atual)"
+    },
+    "Q0014": {
+      "selected": "A",
+      "otherText": "",
+      "note": "Correto — Administrador não é auto-adicionável pelo usuário.",
+      "answered": true,
+      "situacao": "historica",
+      "origem": "Entrevista original do labadv (não implica aprovação atual)"
+    },
+    "Q0021": {
+      "selected": "A",
+      "otherText": "",
+      "note": "Sim — com 2+ perfis o seletor reaparece a cada nova abertura autenticada.",
+      "answered": true,
+      "situacao": "historica",
+      "origem": "Entrevista original do labadv (não implica aprovação atual)"
+    },
+    "Q0024": {
+      "selected": "A",
+      "otherText": "",
+      "note": "Sim — o seletor mostra os perfis existentes, inclusive perfil com onboarding pendente.",
+      "answered": true,
+      "situacao": "historica",
+      "origem": "Entrevista original do labadv (não implica aprovação atual)"
+    },
+    "Q0025": {
+      "selected": "A",
+      "otherText": "",
+      "note": "Sim — selecionar perfil pendente leva ao onboarding correspondente.",
+      "answered": true,
+      "situacao": "historica",
+      "origem": "Entrevista original do labadv (não implica aprovação atual)"
+    },
+    "Q0027": {
+      "selected": "A",
+      "otherText": "",
+      "note": "O fluxo atual possui onboarding Cliente antes da Home.",
+      "answered": true,
+      "situacao": "historica",
+      "origem": "Entrevista original do labadv (não implica aprovação atual)"
+    },
+    "Q0028": {
+      "selected": "A",
+      "otherText": "",
+      "note": "Onboarding Cliente atual: Localização → Preferências de contato → Conclusão.",
+      "answered": true,
+      "situacao": "historica",
+      "origem": "Entrevista original do labadv (não implica aprovação atual)"
+    },
+    "Q0030": {
+      "selected": "B",
+      "otherText": "",
+      "note": "Termos ficam fora do onboarding Cliente, na área legal/configurações.",
+      "answered": true,
+      "situacao": "historica",
+      "origem": "Entrevista original do labadv (não implica aprovação atual)"
+    },
+    "Q0031": {
+      "selected": "B",
+      "otherText": "",
+      "note": "Consentimentos ficam fora do onboarding Cliente atualmente.",
+      "answered": true,
+      "situacao": "historica",
+      "origem": "Entrevista original do labadv (não implica aprovação atual)"
+    },
+    "Q0038": {
+      "selected": "A",
+      "otherText": "",
+      "note": "Localização é etapa do onboarding Cliente atual.",
+      "answered": true,
+      "situacao": "historica",
+      "origem": "Entrevista original do labadv (não implica aprovação atual)"
+    },
+    "Q0044": {
+      "selected": "A",
+      "otherText": "",
+      "note": "Preferências de contato são etapa do onboarding Cliente atual.",
+      "answered": true,
+      "situacao": "historica",
+      "origem": "Entrevista original do labadv (não implica aprovação atual)"
+    },
+    "Q0045": {
+      "selected": "B",
+      "otherText": "",
+      "note": "O fluxo Cliente atual não prevê verificação documental no onboarding.",
+      "answered": true,
+      "situacao": "historica",
+      "origem": "Entrevista original do labadv (não implica aprovação atual)"
+    },
+    "Q0046": {
+      "selected": "B",
+      "otherText": "",
+      "note": "Cliente não é perfil pagante na arquitetura atual.",
+      "answered": true,
+      "situacao": "historica",
+      "origem": "Entrevista original do labadv (não implica aprovação atual)"
+    },
+    "Q0070": {
+      "selected": "B",
+      "otherText": "",
+      "note": "A OAB não pertence ao cadastro nem ao onboarding profissional.",
+      "answered": true,
+      "situacao": "historica",
+      "origem": "Entrevista original do labadv (não implica aprovação atual)"
+    },
+    "Q0071": {
+      "selected": "B",
+      "otherText": "",
+      "note": "UF/seccional acompanha os dados de OAB no processo próprio posterior.",
+      "answered": true,
+      "situacao": "historica",
+      "origem": "Entrevista original do labadv (não implica aprovação atual)"
+    },
+    "Q0072": {
+      "selected": "A",
+      "otherText": "",
+      "note": "Onboarding profissional e validação da OAB são processos separados.",
+      "answered": true,
+      "situacao": "historica",
+      "origem": "Entrevista original do labadv (não implica aprovação atual)"
+    },
+    "Q0090": {
+      "selected": "A",
+      "otherText": "",
+      "note": "Assinatura é uma jornada pós-Home.",
+      "answered": true,
+      "situacao": "historica",
+      "origem": "Entrevista original do labadv (não implica aprovação atual)"
+    },
+    "Q0099": {
+      "selected": "A",
+      "otherText": "",
+      "note": "Depois do onboarding, o advogado entra na mesma Home Profissional e a OAB controla capabilities.",
+      "answered": true,
+      "situacao": "historica",
+      "origem": "Entrevista original do labadv (não implica aprovação atual)"
+    },
+    "Q0100": {
+      "selected": "A",
+      "otherText": "",
+      "note": "Sim — após onboarding, a mesma Home Profissional pode abrir em estado restrito.",
+      "answered": true,
+      "situacao": "historica",
+      "origem": "Entrevista original do labadv (não implica aprovação atual)"
+    },
+    "Q0279": {
+      "selected": "A",
+      "otherText": "",
+      "note": "Sim — Administrador aparece no mesmo seletor quando a conta possui múltiplos perfis.",
+      "answered": true,
+      "situacao": "historica",
+      "origem": "Entrevista original do labadv (não implica aprovação atual)"
+    },
+    "Q0419": {
+      "selected": "A",
+      "otherText": "",
+      "note": "Confirmado: advogado.home_advogado + /professional/home.",
+      "answered": true,
+      "situacao": "historica",
+      "origem": "Entrevista original do labadv (não implica aprovação atual)"
+    },
+    "Q0429": {
+      "selected": "A",
+      "otherText": "",
+      "note": "Confirmado: com 2+ perfis, o seletor é exibido em cada nova abertura autenticada.",
+      "answered": true,
+      "situacao": "historica",
+      "origem": "Entrevista original do labadv (não implica aprovação atual)"
+    },
+    "Q0430": {
+      "selected": "A",
+      "otherText": "",
+      "note": "Confirmado: uma única Home Profissional, condicionada por estado/capabilities.",
+      "answered": true,
+      "situacao": "historica",
+      "origem": "Entrevista original do labadv (não implica aprovação atual)"
+    },
+    "Q0522": {
+      "selected": "A",
+      "otherText": "",
+      "note": "O perfil foi definido como Estudante de Direito mesmo sendo aberto a quem só quer aprender.",
+      "answered": true,
+      "situacao": "historica",
+      "origem": "Entrevista original do labadv (não implica aprovação atual)"
+    },
+    "Q0557": {
+      "selected": "A",
+      "otherText": "",
+      "note": "Busca, filtros e resultados são estados/componentes da Home.",
+      "answered": true,
+      "situacao": "historica",
+      "origem": "Entrevista original do labadv (não implica aprovação atual)"
+    },
+    "Q0558": {
+      "selected": "A",
+      "otherText": "",
+      "note": "O envio é uma ação da tela de detalhe.",
+      "answered": true,
+      "situacao": "historica",
+      "origem": "Entrevista original do labadv (não implica aprovação atual)"
+    },
+    "Q0559": {
+      "selected": "A",
+      "otherText": "",
+      "note": "Os resultados são estados da mesma tela Minhas Solicitações.",
+      "answered": true,
+      "situacao": "historica",
+      "origem": "Entrevista original do labadv (não implica aprovação atual)"
+    },
+    "Q0622": {
+      "selected": "A",
+      "otherText": "",
+      "note": "Trocar perfil e Sair são ações diferentes; trocar perfil preserva a autenticação.",
+      "answered": true,
+      "situacao": "historica",
+      "origem": "Entrevista original do labadv (não implica aprovação atual)"
+    }
+  }
+}
