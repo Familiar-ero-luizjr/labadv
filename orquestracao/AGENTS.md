@@ -2,22 +2,17 @@
 
 ## Missão
 
-Coordenar o projeto Advogado Já por **blocos e fases**, mantendo contexto mínimo, decisões rastreáveis e execução mecânica.
+Coordenar o Advogado Já por **blocos e fases**, com contexto mínimo, decisões rastreáveis e execução mecânica.
 
-`orquestracao.json` é a fonte única desta pasta. HTML, CSS e JavaScript são interface/motor.
+`orquestracao.json` é a fonte canônica desta pasta.
 
-## Hierarquia obrigatória
+## Hierarquia
 
 ```text
-bloco → fase → planejamento → execução
+Bloco → Fase → Planejamento → Execução
 ```
 
-- **Bloco**: objetivo macro.
-- **Fase**: etapa ordenada do bloco.
-- **Planejamento**: auditoria, diagnóstico, escopo, contexto, tarefas e validações.
-- **Execução**: pacote gerado; registra evidência, resultado, bloqueio e handoff.
-
-`B1`, `F1` etc. são somente posição. IDs internos são estáveis.
+IDs internos são estáveis. B1/F1 são apenas posições visuais.
 
 ## Regra máxima
 
@@ -25,61 +20,81 @@ bloco → fase → planejamento → execução
 auditar → planejar → validar plano → gerar execução → executar → validar → handoff
 ```
 
-Não editar produto durante auditoria. Não executar antes de existir plano específico. Não improvisar quando o estado real divergir do plano.
+Não executar escrita de produto durante auditoria. Não improvisar quando o estado real divergir do plano.
 
-## Blocos
+## Estratégia por jornada
 
-Cada bloco deve declarar objetivo, critérios de entrada, critérios de conclusão, fases, estado e observações.
+Depois dos blocos preparatórios, o trabalho funcional ocorre verticalmente:
 
-Blocos podem ser criados, reordenados e arquivados. Bloco com histórico não deve ser apagado.
+```text
+Cliente completo
+→ Advogado completo
+→ Administrador completo
+→ Consolidação transversal
+```
 
-## Fases
+Um bloco de jornada só pode ser concluído quando tiver passado por definição funcional, sincronização dos artefatos dependentes, implementação nas aplicações pertinentes e homologação ponta a ponta.
 
-Cada fase deve registrar objetivo, protocolo, contexto obrigatório e proibido, achados, decisões, escopo, validações, critérios de saída e tarefas concretas quando houver escrita.
+Não adiar toda implementação para depois das três jornadas.
 
-Uma fase só está pronta para gerar Execução quando uma IA com baixa capacidade de raciocínio consegue seguir as tarefas sem escolher arquitetura, escopo ou regra de produto.
+## Fases de uma jornada
+
+A Orquestração pode adaptar a quantidade de fases, mas deve cobrir, sem pular responsabilidades:
+
+- auditoria do estado atual;
+- percurso dos caminhos e telas;
+- identificação de lacunas;
+- perguntas/decisões;
+- consolidação da jornada;
+- telas/campos/estados/dados;
+- modelagem e contratos;
+- protótipo/mapa/HTMLs afetados;
+- planejamento técnico;
+- implementação React + Flutter + Mock;
+- homologação;
+- regressão;
+- conclusão/versionamento.
+
+## Perguntas
+
+Perguntas surgem da análise concreta da jornada. A Orquestração aponta para perguntas canônicas de `definicao/`; não duplica conteúdo.
+
+Se uma fase descobrir nova lacuna, registrar a pergunta no ponto correto antes de assumir comportamento.
 
 ## Tarefas executáveis
 
-Toda tarefa deve informar: alvo exato, tipo de ação, precondições, referências, instruções em ordem, resultado esperado e validações.
+Toda tarefa deve informar alvo, tipo de ação, precondições, referências, instruções em ordem, resultado esperado e validações.
 
-Evitar instruções vagas como “melhorar”, “organizar”, “corrigir” ou “refatorar” sem especificação.
+Evitar verbos vagos sem critério objetivo.
 
-## Contexto e economia de tokens
+Uma execução deve poder ser seguida sem tomar decisões de arquitetura, escopo ou produto.
+
+## Reabertura de jornada
+
+Impacto em jornada já concluída exige nova revisão. Preservar a revisão anterior, registrar motivo, sincronizar todos os artefatos/aplicações afetados e executar regressão antes de retornar à jornada corrente.
+
+## Contexto
 
 Antes de uma fase:
 
-1. ler o `AGENTS.md` raiz;
+1. ler `/AGENTS.md`;
 2. ler este arquivo;
 3. localizar `contexto_atual`;
-4. ler bloco e fase ativos;
-5. carregar apenas `planejamento.contexto.ler_obrigatorio`;
-6. respeitar `planejamento.contexto.nao_ler`;
-7. preferir busca/trechos a leitura integral de artefatos grandes;
-8. usar o handoff anterior.
+4. ler somente bloco/fase ativos;
+5. carregar AGENTS da pasta especialista;
+6. ler apenas fontes necessárias;
+7. usar handoff anterior.
 
 Não carregar o repositório inteiro por padrão.
 
-## Áreas especialistas
+## Persistência e histórico
 
-A Orquestração decide **quando e com qual objetivo** uma área atua; não substitui o `AGENTS.md` local.
+A interface pode editar em memória, mas a persistência canônica ocorre no repositório após exportação/validação/diff.
 
-Ao trabalhar numa pasta, obedecer também ao AGENTS local, que deve definir o que a área pode ler, alterar, decidir e entregar.
-
-## Execução
-
-A Execução não redefine o plano. Arquivo diferente, requisito ausente, conflito de arquitetura, dependência não prevista, instrução ambígua ou risco novo relevante devem bloquear a tarefa e devolvê-la ao Planejamento.
-
-## Revisões e histórico
-
-IDs não mudam com reordenação. Execução corresponde a uma revisão do plano. Se o plano mudar, a execução deve ser regenerada e a anterior preservada no histórico. Decisões alteradas preservam evolução. Bloco/fase com histórico deve ser arquivado, não apagado.
-
-## Persistência
-
-A interface edita em memória. Para persistir: exportar `orquestracao.json`, substituir no repositório, validar schema, revisar diff e commitar.
+Bloco ou fase com histórico não deve ser apagado. Decisão substituída e execução antiga permanecem rastreáveis.
 
 ## Schema
 
 Esperado: `advogadoja.orquestracao.v2`.
 
-Não reintroduzir `fases[]` na raiz; usar `blocos[].fases[]`.
+Não reintroduzir `fases[]` na raiz.
